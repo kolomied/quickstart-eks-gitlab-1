@@ -1,0 +1,97 @@
+
+.Basic configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Environment name
+(`EnvironmentName`)|`**__Blank string__**`|Name of the GitLab environment. Leave empty to use dynamically generated name.|Allowed bastion external access CIDR
+(`RemoteAccessCIDR`)|`**__Requires input__**`|CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.|SSH key name
+(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.|Per-account shared resources
+(`PerAccountSharedResources`)|`Yes`|Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.|Per-Region shared resources
+(`PerRegionSharedResources`)|`Yes`|Choose "No" if you already deployed another EKS Quick Start stack in your Region.
+|===
+.VPC network configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|VPC ID
+(`VPCID`)|`**__Requires input__**`|ID of your existing VPC (e.g., vpc-0343606e).|VPC CIDR
+(`VPCCIDR`)|`**__Requires input__**`|CIDR block for the VPC.|Private subnet 1 ID
+(`PrivateSubnet1ID`)|`**__Requires input__**`|ID of the private subnet in Availability Zone 1 of your existing VPC (e.g., subnet-fe9a8b32).|Private subnet 2 ID
+(`PrivateSubnet2ID`)|`**__Requires input__**`|ID of the private subnet in Availability Zone 2 of your existing VPC (e.g., subnet-be8b01ea).|Private subnet 3 ID
+(`PrivateSubnet3ID`)|`**__Requires input__**`|ID of the private subnet in Availability Zone 3 of your existing VPC (e.g., subnet-abd39039).|Public subnet 1 ID
+(`PublicSubnet1ID`)|`**__Requires input__**`|ID of the public subnet in Availability Zone 1 of your existing VPC (e.g., subnet-a0246ccd).|Public subnet 2 ID
+(`PublicSubnet2ID`)|`**__Requires input__**`|ID of the public subnet in Availability Zone 2 of your existing VPC (e.g., subnet-b1236eea).|Public subnet 3 ID
+(`PublicSubnet3ID`)|`**__Requires input__**`|ID of the public subnet in Availability Zone 3 of your existing VPC (e.g., subnet-c3456aba).
+|===
+.Bastion host configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Provision a bastion host
+(`ProvisionBastionHost`)|`Disabled`|Choose "Enabled" to provision a bastion host to access EKS cluster instances.
+|===
+.Amazon EKS cluster configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|EKS public access endpoint
+(`EKSPublicAccessEndpoint`)|`Disabled`|Configure access to the Kubernetes API server endpoint from outside of your VPC.|Additional EKS admin ARN (IAM user)
+(`AdditionalEKSAdminUserArn`)|`**__Blank string__**`|(Optional) IAM user Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster.|Additional EKS admin ARN (IAM role)
+(`AdditionalEKSAdminRoleArn`)|`**__Blank string__**`|(Optional) IAM role Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster.|Instance type
+(`NodeInstanceType`)|`t3.medium`|EC2 instance type.|Number of nodes
+(`NumberOfNodes`)|`3`|Number of Amazon EKS node instances. The default is one for each of the three Availability Zones.|Maximum number of nodes
+(`MaxNumberOfNodes`)|`6`|Maximum number of Amazon EKS node instances. The default is three.|Configure Container Insights
+(`ConfigureContainerInsights`)|`No`|Choose "Yes" to enable integration with CloudWatch Container Insights.
+|===
+.Amazon Aurora Postgres configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|GitLab database name
+(`DBName`)|`gitlab`|Name of the GitLab Postgres database.|Praefect database name
+(`DBPraefectName`)|`praefect`|Name of the Praefect Postgres database.|Database admin username
+(`DBUserName`)|`gitlab`|The database admin account username.|Database admin password
+(`DBUserPassword`)|`**__Requires input__**`|The database admin account password.|Database port
+(`DBPort`)|`5432`|The port the instance will listen for connections on.
+|===
+.GitLab infrastructure configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|GitLab DNS name
+(`DomainName`)|`**__Requires input__**`|The domain name for the GitLab server.|Create Route 53 hosted zone
+(`CreateHostedZone`)|`No`|Choose "Yes" if you want to create Amazon Route 53 to manage DNS for GitLab domain.|Request AWS Certificate Manager SSL certificate
+(`CreateSslCertificate`)|`No`|Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.
+|===
+.GitLab SMTP configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Create Amazon Simple Email Service domain
+(`CreateEmailDomain`)|`No`|Choose "Yes" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.|SMTP server host name
+(`SMTPHostName`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server host name.|SMTP server port
+(`SMTPPort`)|`587`|If you chose not to use Amazon Simple Email Service above, provide SMTP server port.|SMTP server user name
+(`SMTPUsername`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server username.|SMTP server password
+(`SMTPPassword`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server password.
+|===
+.GitLab Helm chart configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Kubernetes namespace creation mode
+(`HelmChartNamespaceCreate`)|`CreateNew`|Create new or use exicting Kubernetes namespace for GitLab chart deployment.|Kubernetes namespace for GitLab Helm chart
+(`HelmChartNamespace`)|`gitlab`|Kubernetes namespace to deploy GitLab chart to.|GitLab Helm chart name
+(`HelmChartName`)|`gitlab`|Name of Helm GitLab deployment.|GitLab Helm chart version
+(`HelmChartVersion`)|`4.5.1`|Version of GitLab Helm chart GitLab for deployment.|Number of Gitaly replicas
+(`NumberOfGitalyReplicas`)|`2`|Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.
+|===
+.GitLab object storage configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Object storage encryption algorithm
+(`ObjectStorageSSEAlgorithm`)|`AES256`|Encryption algorithm for GitLab object storage artifacts.|KMS key ID
+(`ObjectStorageKMSKeyID`)|`none`|Provide KMS key ID to be used for encryption if KMS encryption is selected.|Object storage backup schedule
+(`BackupSchedule`)|`0 1 * * *`|cron expression that is used to run GitLab backup jobs (default is daily at 1am).|Object storage backup volume capacity
+(`BackupVolumeSize`)|`10`|Capacity of EBS volume used for GitLab backups, in Gb.
+|===
+.AWS Quick Start configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Quick Start S3 bucket name
+(`QSS3BucketName`)|`aws-quickstart`|S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).|Quick Start S3 key prefix
+(`QSS3KeyPrefix`)|`quickstart-examples/`|S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).|Quick Start S3 bucket region
+(`QSS3BucketRegion`)|`us-east-1`|The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.
+|===

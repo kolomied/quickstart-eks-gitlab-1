@@ -1,1 +1,9 @@
-// placeholder
+
+=== Launch into a new VPC
+include::gitlab-entry-new-vpc.template.adoc[]
+
+=== Launch into an existing VPC
+include::gitlab-entry-existing-vpc.template.adoc[]
+
+=== Launch into an existing EKS cluster
+include::gitlab-entry-existing-cluster.template.adoc[]
