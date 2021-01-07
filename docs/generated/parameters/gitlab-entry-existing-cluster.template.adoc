@@ -19,12 +19,14 @@
 |===
 |Parameter label (name) |Default value|Description|EKS cluster name
 (`EKSClusterName`)|`**__Requires input__**`|EKS cluster to install GitLab in.|Configure Container Insights
-(`ConfigureContainerInsights`)|`No`|Choose "Yes" to enable integration with CloudWatch Container Insights.
+(`ConfigureContainerInsights`)|`No`|Choose "Yes" to enable integration with CloudWatch Container Insights.|Configure Grafana
+(`ConfigureGrafana`)|`No`|Choose "Yes" to enable integration with Grafana.
 |===
 .Amazon Aurora Postgres configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|GitLab database name
+|Parameter label (name) |Default value|Description|GitLab database instance class
+(`DBInstanceClass`)|`db.r5.large`|The name of the compute and memory capacity class of the database instance.|GitLab database name
 (`DBName`)|`gitlab`|Name of the GitLab Postgres database.|Praefect database name
 (`DBPraefectName`)|`praefect`|Name of the Praefect Postgres database.|Database admin username
 (`DBUserName`)|`gitlab`|The database admin account username.|Database admin password
@@ -37,17 +39,18 @@
 |Parameter label (name) |Default value|Description|GitLab DNS name
 (`DomainName`)|`**__Requires input__**`|The domain name for the GitLab server.|Create Route 53 hosted zone
 (`CreateHostedZone`)|`No`|Choose "Yes" if you want to create Amazon Route 53 to manage DNS for GitLab domain.|Request AWS Certificate Manager SSL certificate
-(`CreateSslCertificate`)|`No`|Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.
+(`CreateSslCertificate`)|`No`|Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.|Email address for SSL certificate registration
+(`SslCertificateIssuerEmail`)|`**__Blank string__**`|Email address to register GitLab TLS certificates. Required if you skip certificate creation.
 |===
 .GitLab SMTP configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Create Amazon Simple Email Service domain
-(`CreateEmailDomain`)|`No`|Choose "Yes" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.|SMTP server host name
-(`SMTPHostName`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server host name.|SMTP server port
-(`SMTPPort`)|`587`|If you chose not to use Amazon Simple Email Service above, provide SMTP server port.|SMTP server user name
-(`SMTPUsername`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server username.|SMTP server password
-(`SMTPPassword`)|`**__Blank string__**`|If you chose not to use Amazon Simple Email Service above, provide SMTP server password.
+|Parameter label (name) |Default value|Description|Outgoing SMTP domain
+(`SMTPDomain`)|`Disabled`|Choose "CreateNew" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.|SMTP server host name
+(`SMTPHostName`)|`**__Blank string__**`|If you chose to use existing SMTP domain above, provide SMTP server host name.|SMTP server port
+(`SMTPPort`)|`587`|If you chose to use existing SMTP domain above, provide SMTP server port.|SMTP server user name
+(`SMTPUsername`)|`**__Blank string__**`|If you chose to use existing SMTP domain above, provide SMTP server username.|SMTP server password
+(`SMTPPassword`)|`**__Blank string__**`|If you chose to use existing SMTP domain above, provide SMTP server password.
 |===
 .GitLab Helm chart configuration
 [width="100%",cols="16%,11%,73%",options="header",]
@@ -56,8 +59,15 @@
 (`HelmChartNamespaceCreate`)|`CreateNew`|Create new or use exicting Kubernetes namespace for GitLab chart deployment.|Kubernetes namespace for GitLab Helm chart
 (`HelmChartNamespace`)|`gitlab`|Kubernetes namespace to deploy GitLab chart to.|GitLab Helm chart name
 (`HelmChartName`)|`gitlab`|Name of Helm GitLab deployment.|GitLab Helm chart version
-(`HelmChartVersion`)|`4.5.1`|Version of GitLab Helm chart GitLab for deployment.|Number of Gitaly replicas
-(`NumberOfGitalyReplicas`)|`2`|Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.
+(`HelmChartVersion`)|`4.7.0`|Version of GitLab Helm chart GitLab for deployment.
+|===
+.GitLab Git repository storage configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Number of Praefect replicas
+(`NumberOfPraefectReplicas`)|`3`|Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Number of Gitaly replicas
+(`NumberOfGitalyReplicas`)|`3`|Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Gitaly volume capacity
+(`GitalyVolumeSize`)|`50`|Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
 |===
 .GitLab object storage configuration
 [width="100%",cols="16%,11%,73%",options="header",]

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Example Product Name on the AWS Cloud</title>
+<title>GitLab on the AWS Cloud</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -790,10 +790,18 @@ p.footer-text a{color:#d7d8d8}
 <div id="toctitle"></div>
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
-<li><a href="#_example_product_name_on_aws">Example Product Name on AWS</a></li>
+<li><a href="#_gitlab_on_aws">GitLab on AWS</a></li>
 <li><a href="#_cost">Cost</a></li>
 <li><a href="#_software_licenses">Software licenses</a></li>
-<li><a href="#_architecture">Architecture</a></li>
+<li><a href="#_architecture">Architecture</a>
+<ul class="sectlevel2">
+<li><a href="#_database_cluster">Database Cluster</a></li>
+<li><a href="#_object_storage">Object storage</a></li>
+<li><a href="#_backups">Backups</a></li>
+<li><a href="#_telemetry">Telemetry</a></li>
+<li><a href="#_exports">Exports</a></li>
+</ul>
+</li>
 <li><a href="#_planning_the_deployment">Planning the deployment</a>
 <ul class="sectlevel2">
 <li><a href="#_specialized_knowledge">Specialized knowledge</a></li>
@@ -809,7 +817,7 @@ p.footer-text a{color:#d7d8d8}
 </li>
 <li><a href="#_test_the_deployment">Test the deployment</a></li>
 <li><a href="#_post_deployment_steps">Post-deployment steps</a></li>
-<li><a href="#_best_practices_for_using_example_product_name_on_aws">Best practices for using Example Product Name on AWS</a></li>
+<li><a href="#_best_practices_for_using_gitlab_on_aws">Best practices for using GitLab on AWS</a></li>
 <li><a href="#_security">Security</a></li>
 <li><a href="#_other_useful_information">Other useful information</a></li>
 <li><a href="#_faq">FAQ</a></li>
@@ -831,17 +839,17 @@ p.footer-text a{color:#d7d8d8}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<h2 id="_example_product_name_on_the_aws_cloud" class="discrete text-center">Example Product Name on the AWS Cloud</h2>
+<h2 id="_gitlab_on_the_aws_cloud" class="discrete text-center">GitLab on the AWS Cloud</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
-<img src="https://aws-quickstart.s3.amazonaws.com/quickstart-documentation-base/docs/boilerplate/.images/aws-quickstart-graphic.png" alt="QS" width="80" height="80">
+<img src="https://aws-quickstart.s3.amazonaws.com/quickstart-eks-gitlab/docs/boilerplate/.images/aws-quickstart-graphic.png" alt="QS" width="80" height="80">
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>Month of launch or significant update (spelled out) Year</strong><br>
-<em>Shuai Ye, Michael McConnell, and John Smith, Example Company Name, Ltd.</em><br>
-<em>Toni Jones, AWS Quick Start team</em></p>
+<p><strong>January 2021</strong><br>
+<em>Darwin Sanoy, GitLab Inc.</em><br>
+<em>Dmitry Kolomiets, Andy Wong, AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -850,14 +858,14 @@ p.footer-text a{color:#d7d8d8}
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Visit our <a href="https://github.com/aws-quickstart/quickstart-documentation-base" target="_blank" rel="noopener">GitHub repository</a> for source files and to post feedback,
+Visit our <a href="https://github.com/aws-quickstart/quickstart-eks-gitlab" target="_blank" rel="noopener">GitHub repository</a> for source files and to post feedback,
 report bugs, or submit feature ideas for this Quick Start.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph text-left">
-<p>This Quick Start was created by Example Company Name, Ltd. in collaboration with Amazon Web Services (AWS). <a href="http://aws.amazon.com/quickstart/" target="_blank" rel="noopener">Quick Starts</a> are automated reference deployments that use AWS CloudFormation templates to deploy key technologies on AWS, following AWS best practices.</p>
+<p>This Quick Start was created by GitLab Inc. in collaboration with Amazon Web Services (AWS). <a href="http://aws.amazon.com/quickstart/" target="_blank" rel="noopener">Quick Starts</a> are automated reference deployments that use AWS CloudFormation templates to deploy key technologies on AWS, following AWS best practices.</p>
 </div>
 </div>
 </div>
@@ -865,10 +873,10 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying the Example Product Name Quick Start reference architecture on the AWS Cloud.</p>
+<p>This guide provides instructions for deploying the GitLab Quick Start reference architecture on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for users who &lt;target audience and usage scenario&gt;</p>
+<p>This Quick Start is for users who want a repeatable, customizable reference deployment for GitLab using AWS CloudFormation.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -885,7 +893,7 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example_product_name_on_aws">Example Product Name on AWS</h2>
+<h2 id="_gitlab_on_aws">GitLab on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>&lt;Describe how the software works on AWS.&gt;</p>
@@ -930,13 +938,13 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 <p>Example content below:</p>
 </div>
 <div class="paragraph">
-<p><em>&lt;license information&gt;This Quick Start requires a license for Example Product Name. To use the Quick Start in your production environment, sign up for a license at &lt;link&gt;. When you launch the Quick Start, place the license key in an S3 bucket and specify its location.</em></p>
+<p><em>&lt;license information&gt;This Quick Start requires a license for GitLab. To use the Quick Start in your production environment, sign up for a license at &lt;link&gt;. When you launch the Quick Start, place the license key in an S3 bucket and specify its location.</em></p>
 </div>
 <div class="paragraph">
 <p><em>If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you &lt;n&gt; days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions at &lt;link&gt;.</em></p>
 </div>
 <div class="paragraph">
-<p><em>&lt;AMI information&gt;The Quick Start requires a subscription to the Amazon Machine Image (AMI) for Example Product Name, which is available from <a href="https://aws.amazon.com/marketplace/" target="_blank" rel="noopener">AWS Marketplace</a>. Additional pricing, terms, and conditions may apply. For instructions, see <a href="#step-2.-subscribe-to-the-software-ami">step 2</a> in the deployment section.</em></p>
+<p><em>&lt;AMI information&gt;The Quick Start requires a subscription to the Amazon Machine Image (AMI) for GitLab, which is available from <a href="https://aws.amazon.com/marketplace/" target="_blank" rel="noopener">AWS Marketplace</a>. Additional pricing, terms, and conditions may apply. For instructions, see <a href="#step-2.-subscribe-to-the-software-ami">step 2</a> in the deployment section.</em></p>
 </div>
 </div>
 </div>
@@ -945,14 +953,14 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 <div class="sectionbody">
 <div class="paragraph">
 <p>Deploying this Quick Start for a new virtual private cloud (VPC) with
-default parameters builds the following Example Product Name environment in the
+default parameters builds the following GitLab environment in the
 AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
 <img src="images/architecture_diagram.png" alt="Architecture" width="100%" height="100%">
 </div>
-<div class="title">Figure 1. Quick Start architecture for Example Product Name on AWS</div>
+<div class="title">Figure 1. Quick Start architecture for GitLab on AWS</div>
 </div>
 <div class="paragraph">
 <p>As shown in <a href="#architecture1">Figure 1</a>, the Quick Start sets up the following:</p>
@@ -960,11 +968,17 @@ AWS Cloud.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>A highly available architecture that spans two Availability Zones.*</p>
+<p>A highly available architecture that spans two or three Availability Zones.</p>
 </li>
 <li>
 <p>A VPC configured with public and private subnets, according to AWS
-best practices, to provide you with your own virtual network on AWS.*</p>
+best practices, to provide you with your own virtual network on AWS.<sup>1</sup></p>
+</li>
+<li>
+<p>An Amazon EKS cluster, which creates the Kubernetes control plane.<sup>2</sup></p>
+</li>
+<li>
+<p>S3 buckets for GitLab object storage</p>
 </li>
 <li>
 <p>In the public subnets:</p>
@@ -972,11 +986,7 @@ best practices, to provide you with your own virtual network on AWS.*</p>
 <ul>
 <li>
 <p>Managed network address translation (NAT) gateways to allow outbound
-internet access for resources in the private subnets.*</p>
-</li>
-<li>
-<p>A Linux bastion host in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to EC2 instances in public and private subnets.*</p>
+internet access for resources in the private subnets.<sup>1</sup></p>
 </li>
 </ul>
 </div>
@@ -986,21 +996,344 @@ Shell (SSH) access to EC2 instances in public and private subnets.*</p>
 <div class="ulist">
 <ul>
 <li>
-<p>&lt;item&gt;.</p>
+<p>A group of Kubernetes EC2 nodes.<sup>2</sup></p>
 </li>
 <li>
-<p>&lt;item&gt;.</p>
+<p>An Amazon RDS cluster fot GitLab and Praefect databases.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>&lt;describe any additional components&gt;.</p>
+<p>Optionally:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In one public subnet, a Linux bastion host in an Auto Scaling group to allow
+inbound Secure Shell (SSH) access to Amazon Elastic Compute Cloud (Amazon EC2)
+instances in private subnets. The bastion host is also configured with the Kubernetes
+<code>kubectl</code> command line interface (CLI) for managing the Kubernetes cluster.</p>
+</li>
+<li>
+<p>Amazon Route53 Hosted zone for DNS configuration</p>
+</li>
+<li>
+<p>AWS Certificate Manager TLS certificate</p>
+</li>
+<li>
+<p>Amazon Simple Email Service domain for outgoing email messages</p>
+</li>
+<li>
+<p>Amazon CloudWatch Container Insights integration</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><span class="small">*The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.</span></p>
+<p><span class="small"><sup>1</sup>The template that deploys the Quick Start into an existing VPC skips
+the components and prompts you for your existing VPC configuration.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="small"><sup>2</sup>The template that deploys the Quick Start into an existing EKS cluster skips
+the components and prompts you for your existing EKS configuration.</span></p>
+</div>
+<div class="sect2">
+<h3 id="_database_cluster">Database Cluster</h3>
+<div class="paragraph">
+<p>GitLab Quickstart deploys Highly Available PostgreSQL database cluster using <a href="https://aws.amazon.com/quickstart/architecture/aurora-postgresql/" target="_blank" rel="noopener">Amazon Aurora PostgreSQL Quickstart</a>.</p>
+</div>
+<div class="paragraph">
+<p>Depending on the projected size of your GitLab deployment you may want to adjust database instance size using <strong>DBInstanceClass</strong> parameter.</p>
+</div>
+<div class="paragraph">
+<p>There are two databases deployed to the same cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GitLab database</p>
+</li>
+<li>
+<p>Praefect tracking database</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Praefect requires a separate tracking database as described in <a href="https://docs.gitlab.com/ee/administration/gitaly/praefect.html" target="_blank" rel="noopener">Gitaly Cluster documentation</a>.</p>
+</div>
+<div class="paragraph">
+<p>More about external database configuration in <a href="https://docs.gitlab.com/charts/advanced/external-db/" target="_blank" rel="noopener">GitLab documentation</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_object_storage">Object storage</h3>
+<div class="paragraph">
+<p>GitLab Quickstart creates the following S3 buckets:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ArtifactsBucket</p>
+</li>
+<li>
+<p>LfsBucket</p>
+</li>
+<li>
+<p>UploadsBucket</p>
+</li>
+<li>
+<p>PackagesBucket</p>
+</li>
+<li>
+<p>TerraformBucket</p>
+</li>
+<li>
+<p>PseudonymizerBucket</p>
+</li>
+<li>
+<p>RegistryBucket</p>
+</li>
+<li>
+<p>BackupBucket</p>
+</li>
+<li>
+<p>BackupTempBucket</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Contents of the bucket encrypted by default with SSE-S3. Names of the buckets are generated by CloudFormation and exported as SSM parameters (see <strong>Exports</strong> section).</p>
+</div>
+<div class="paragraph">
+<p>More about external object storage in <a href="https://docs.gitlab.com/charts/advanced/external-object-storage/" target="_blank" rel="noopener">GitLab documentation</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_backups">Backups</h3>
+<div class="sect3">
+<h4 id="_schedule">Schedule</h4>
+<div class="paragraph">
+<p>Backup schedule is controlled by cron expression and default value is <code>0 1 * * * *</code> (daily at 1am). You can set a different schedule using <strong>BackupSchedule</strong> parameter.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_content_of_the_backups">Content of the backups</h4>
+<div class="paragraph">
+<p>Backups include GitLab database snapshot and contents of GitLab projects (Git repositories, Wiki pages). Backups do <strong>not</strong> include contents of S3 buckets (see Object storage for a list of buckets). The main reason behind this decision:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Contents of these buckets may be very large (pipeline artifacts, docker images, etc.) and that may affect stability and performance of the backup jobs</p>
+</li>
+<li>
+<p>S3 is a <a href="https://aws.amazon.com/s3/faqs/#Durability_.26_Data_Protection" target="_blank" rel="noopener">durable storage</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If needed, complete backup may be created using backup-utility as described in <a href="https://docs.gitlab.com/charts/backup-restore/" target="_blank" rel="noopener">GitLab documentation</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_backuprestore_resources">Backup/Restore resources</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Disk volume required for backups is about <strong>2x larger than backup tarball itself</strong>. This is due to the fact that all resources have to be downloaded first and packaged to tarball file which also stored locally. Consider the size of you GitLab database and projects (mainly Git repositories) to set the size of the underlying EBS volumes appropriately using <strong>BackupVolumeSize</strong> parameter.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Default Quick Start configuration tested on backups of 20Gb average size, took about 30 minutes to create and upload to S3 bucket.</p>
+</div>
+<div class="paragraph">
+<p>For large GitLab deployments you can also adjust CPU and memory requirements for backup and restore pods using <strong>BackupCpu</strong> and <strong>BackupMemory</strong> parameters.</p>
+</div>
+<div class="paragraph">
+<p>More about backups in <a href="https://docs.gitlab.com/charts/backup-restore/" target="_blank" rel="noopener">GitLab documentation</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_telemetry">Telemetry</h3>
+<div class="sect3">
+<h4 id="_cloudwatch_container_insights">CloudWatch Container Insights</h4>
+<div class="paragraph">
+<p>GitLab Quickstart integrates EKS cluster with <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html" target="_blank" rel="noopener">CloudWatch Container Insights</a> to collect, aggregate, and summarise metrics and logs if <strong>ConfigureContainerInsights</strong> parameter is set to <code>Yes</code>.</p>
+</div>
+<div class="paragraph">
+<p>Logs and metrics can be accessed from CloudWatch console:</p>
+</div>
+<div id="cloudwatch-container-insights" class="imageblock">
+<div class="content">
+<img src="images/cloudwatch-container-insights.png" alt="CloudWatch Container Insights" width="100%" height="100%">
+</div>
+<div class="title">Figure 2. CloudWatch Container Insights</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_prometheus_metrics">Prometheus metrics</h4>
+<div class="paragraph">
+<p>GitLab exposes Prometheus metrics under <code>/-/metrics</code> of the GitLab Ingress. Optional Grafana integration can be enabled by setting <strong>ConfigureGrafana</strong> parameter to ‘Yes’.</p>
+</div>
+<div id="grafana" class="imageblock">
+<div class="content">
+<img src="images/grafana.png" alt="Grafana" width="100%" height="100%">
+</div>
+<div class="title">Figure 3. Grafana</div>
+</div>
+<div class="paragraph">
+<p>More about Grafana integration in <a href="https://docs.gitlab.com/charts/charts/globals.html#configure-grafana-integration" target="_blank" rel="noopener">GitLab documentation</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_amazon_eks_console">Amazon EKS Console</h4>
+<div class="paragraph">
+<p>Amazon EKS Console gives you a single place to see the status of your Kubernetes clusters, applications, and associated cloud resources.</p>
+</div>
+<div class="paragraph">
+<p>Please see the prerequisites for Amazon EKS Console access configuration in <a href="https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html" target="_blank" rel="noopener">AWS documentation</a>.</p>
+</div>
+<div id="aws-eks-console" class="imageblock">
+<div class="content">
+<img src="images/aws-eks-console.png" alt="AWS EKS Console" width="100%" height="100%">
+</div>
+<div class="title">Figure 4. AWS EKS Console</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exports">Exports</h3>
+<div class="paragraph">
+<p>Upon successful GitLab deployment, the following SSM parameters and Secrets Manages secrtes are exposed:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. SSM parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 16.6666%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/infra/domain-name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab domain name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/infra/hosted-zone-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Route53 hosted zone ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/infra/hosted-zone-name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Route53 hosted zone name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/artifacts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Artifacts bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/backup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Backup bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/backup-tmp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Backup Temp bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/lfs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 LFS bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/packages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Packages bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/pseudonymizer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Pseudonymizer bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/registry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Registry bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/terraform</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Terraform bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/uploads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 Uploads bucket name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/secrets/initial-root-password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab load balancer DNS name</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Secret Manager secrets</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 16.6666%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">quickstart/gitlab/<code>{env-name}</code>/infra/smtp-credentials</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server credentials</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/credentials</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 object storage access credentials</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/secrets/rails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Rails secret</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/secrets/initial-root-password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab initial root password</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1129,7 +1462,7 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_prepare_your_example_company_name_ltd_account">Prepare your Example Company Name, Ltd. account</h4>
+<h4 id="_prepare_your_gitlab_inc_account">Prepare your GitLab Inc. account</h4>
 <div class="paragraph">
 <p><em>Describe any setup required in the partner portal/account prior to template launch</em></p>
 </div>
@@ -1148,15 +1481,18 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Deploy Example Product Name into a new VPC</strong>. This option builds a new AWS environment consisting of the VPC, subnets, NAT gateways, security groups, bastion hosts, and other infrastructure components. It then deploys Example Product Name into this new VPC.</p>
+<p><strong>Deploy GitLab into a new VPC</strong>. This option builds a new AWS environment consisting of the VPC, subnets, NAT gateways, security groups, bastion hosts, and other infrastructure components. It then deploys GitLab into this new VPC.</p>
 </li>
 <li>
-<p><strong>Deploy Example Product Name into an existing VPC</strong>. This option provisions Example Product Name in your existing AWS infrastructure.</p>
+<p><strong>Deploy GitLab into an existing VPC</strong>. This option provisions GitLab in your existing AWS infrastructure.</p>
+</li>
+<li>
+<p><strong>Deploy GitLab into an existing EKS cluster</strong>. This option provisions GitLab in your existing EKS Cluster.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and Example Product Name settings, as discussed later in this guide.</p>
+<p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, Amazon EKS settings, and GitLab settings, as discussed later in this guide.</p>
 </div>
 </div>
 </div>
@@ -1174,6 +1510,9 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 </li>
 <li>
 <p>Make sure that your AWS account is configured correctly, as discussed in the <a href="#_technical_requirements">Technical requirements</a> section.</p>
+</li>
+<li>
+<p>Use the Region selector in the navigation bar to choose the AWS Region where you want to deploy GitLab.</p>
 </li>
 </ol>
 </div>
@@ -1206,11 +1545,15 @@ You are responsible for the cost of the AWS services used while running this Qui
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy Example Product Name into a new VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy GitLab into a new VPC on AWS</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy Example Product Name into an existing VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy GitLab into an existing VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy GitLab into an existing EKS cluster on AWS</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 </tbody>
@@ -1222,18 +1565,35 @@ You are responsible for the cost of the AWS services used while running this Qui
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you’re deploying Example Product Name into an existing VPC, make sure that your VPC has two private subnets in different Availability Zones for the workload instances and that the subnets aren’t shared. This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>. These subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a> in their route tables to allow the instances to download packages and software without exposing them to the internet. Also make sure that the domain name option in the DHCP options is configured as explained in <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">DHCP options sets</a>. You provide your VPC settings when you launch the Quick Start.
+<div class="paragraph">
+<p>If you’re deploying GitLab into an existing VPC, make sure that your VPC has two
+private subnets in different Availability Zones for the workload instances and that the subnets aren’t shared.
+This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>.</p>
+</div>
+<div class="paragraph">
+<p>These private subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a>
+in their route tables to allow the instances to download packages and software without exposing them to the internet.
+Also make sure that the domain name option in the DHCP options is configured as explained in
+<a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">DHCP options sets</a>.</p>
+</div>
+<div class="paragraph">
+<p>The Quick Start uses Kubernetes integration with Elastic Load Balancing which requires each private subnet to
+be tagged with <code>kubernetes.io/role/internal-elb=true</code> and each public subnet with <code>kubernetes.io/role/elb=true</code>.</p>
+</div>
+<div class="paragraph">
+<p>You provide your VPC settings when you launch the Quick Start.</p>
+</div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Each deployment takes about 15 minutes / 60 minutes / 1.5 hours to complete.</p>
+<p>Each deployment takes about 60 minutes / 1.5 hours to complete.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
 <li>
-<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for Example Product Name is built. The template is launched in the us-east-1 Region by default.</p>
+<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for GitLab is built. The template is launched in the us-east-1 Region by default.</p>
 </li>
 </ol>
 </div>
@@ -1244,6 +1604,52 @@ If you’re deploying Example Product Name into an existing VPC, make sure that 
 </li>
 <li>
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If GitLab is already deployed in your account, ensure that the <code>Per account shared resources</code> parameter
+is set to <strong>No</strong> or <strong>AutoDetect</strong>. If you deploy a new GitLab instance in the same Region as a previously deployed instance,
+set <code>Per region shared resources</code> to <strong>No</strong> or <strong>AutoDetect</strong>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unless you are customizing this Quick Start&#8217;s templates for your own deployment projects, we recommend that you keep the default settings for the parameters labeled <code>Quick Start S3 bucket name</code>, <code>Quick Start S3 bucket
+Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re done, choose <strong>Next</strong>.</p>
+</li>
+<li>
+<p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
+</li>
+<li>
+<p>Choose <strong>Create stack</strong> to deploy the stack.</p>
+</li>
+<li>
+<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the GitLab deployment is ready.</p>
+</li>
+<li>
+<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 5</a>, to view the created resources.</p>
 </li>
 </ol>
 </div>
@@ -1259,10 +1665,10 @@ If you’re deploying Example Product Name into an existing VPC, make sure that 
 <p>Choose <strong>Create stack</strong> to deploy the stack.</p>
 </li>
 <li>
-<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the Example Product Name deployment is ready.</p>
+<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the GitLab deployment is ready.</p>
 </li>
 <li>
-<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 2</a>, to view the created resources.</p>
+<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 5</a>, to view the created resources.</p>
 </li>
 </ol>
 </div>
@@ -1270,7 +1676,7 @@ If you’re deploying Example Product Name into an existing VPC, make sure that 
 <div class="content">
 <a class="image" href="images/cfn_outputs.png"><img src="images/cfn_outputs.png" alt="cfn_outputs" width="648" height="439"></a>
 </div>
-<div class="title">Figure 2. Example Product Name outputs after successful deployment</div>
+<div class="title">Figure 5. GitLab outputs after successful deployment</div>
 </div>
 </div>
 </div>
@@ -1288,7 +1694,7 @@ If you’re deploying Example Product Name into an existing VPC, make sure that 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_best_practices_for_using_example_product_name_on_aws">Best practices for using Example Product Name on AWS</h2>
+<h2 id="_best_practices_for_using_gitlab_on_aws">Best practices for using GitLab on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Add any best practices for using the software.</em></p>
@@ -1370,7 +1776,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Basic configuration</caption>
+<caption class="title">Table 3. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1423,7 +1829,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. VPC network configuration</caption>
+<caption class="title">Table 4. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1488,7 +1894,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Bastion host configuration</caption>
+<caption class="title">Table 5. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1511,7 +1917,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 6. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1546,8 +1952,14 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
 (<code>NodeInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node volume capacity
+(<code>NodeVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS node instances, in Gb.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of nodes
@@ -1567,10 +1979,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+(<code>ConfigureGrafana</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 7. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1584,6 +2002,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
+(<code>DBInstanceClass</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
 (<code>DBName</code>)</p></td>
@@ -1617,7 +2041,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. GitLab infrastructure configuration</caption>
+<caption class="title">Table 8. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1649,10 +2073,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address for SSL certificate registration
+(<code>SslCertificateIssuerEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address to register GitLab TLS certificates. Required if you skip certificate creation.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. GitLab SMTP configuration</caption>
+<caption class="title">Table 9. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1667,39 +2097,39 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create Amazon Simple Email Service domain
-(<code>CreateEmailDomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outgoing SMTP domain
+(<code>SMTPDomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "CreateNew" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server host name
 (<code>SMTPHostName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server host name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server host name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server port
 (<code>SMTPPort</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>587</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server port.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server port.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server user name
 (<code>SMTPUsername</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server username.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server username.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server password
 (<code>SMTPPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server password.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. GitLab Helm chart configuration</caption>
+<caption class="title">Table 10. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1734,19 +2164,48 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.5.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.7.0</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. GitLab object storage configuration</caption>
+<caption class="title">Table 11. GitLab Git repository storage configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
+(<code>GitalyVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1787,7 +2246,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. AWS Quick Start configuration</caption>
+<caption class="title">Table 13. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1825,7 +2284,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Basic configuration</caption>
+<caption class="title">Table 14. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1860,19 +2319,19 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Per-account shared resources
 (<code>PerAccountSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Per-Region shared resources
 (<code>PerRegionSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your Region.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. VPC network configuration</caption>
+<caption class="title">Table 15. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1937,7 +2396,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Bastion host configuration</caption>
+<caption class="title">Table 16. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1960,7 +2419,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 17. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1995,8 +2454,14 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
 (<code>NodeInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node volume capacity
+(<code>NodeVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS node instances, in Gb.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of nodes
@@ -2016,10 +2481,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+(<code>ConfigureGrafana</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 18. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2033,6 +2504,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
+(<code>DBInstanceClass</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
 (<code>DBName</code>)</p></td>
@@ -2066,7 +2543,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. GitLab infrastructure configuration</caption>
+<caption class="title">Table 19. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2098,10 +2575,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address for SSL certificate registration
+(<code>SslCertificateIssuerEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address to register GitLab TLS certificates. Required if you skip certificate creation.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. GitLab SMTP configuration</caption>
+<caption class="title">Table 20. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2116,39 +2599,39 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create Amazon Simple Email Service domain
-(<code>CreateEmailDomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outgoing SMTP domain
+(<code>SMTPDomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "CreateNew" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server host name
 (<code>SMTPHostName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server host name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server host name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server port
 (<code>SMTPPort</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>587</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server port.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server port.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server user name
 (<code>SMTPUsername</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server username.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server username.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server password
 (<code>SMTPPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server password.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. GitLab Helm chart configuration</caption>
+<caption class="title">Table 21. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2183,19 +2666,48 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.5.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.7.0</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. GitLab object storage configuration</caption>
+<caption class="title">Table 22. GitLab Git repository storage configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
+(<code>GitalyVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 23. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2236,7 +2748,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. AWS Quick Start configuration</caption>
+<caption class="title">Table 24. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2274,7 +2786,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. Basic configuration</caption>
+<caption class="title">Table 25. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2297,7 +2809,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. VPC network configuration</caption>
+<caption class="title">Table 26. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2338,7 +2850,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 27. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2364,10 +2876,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+(<code>ConfigureGrafana</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 28. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2381,6 +2899,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
+(<code>DBInstanceClass</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
 (<code>DBName</code>)</p></td>
@@ -2414,7 +2938,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. GitLab infrastructure configuration</caption>
+<caption class="title">Table 29. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2446,10 +2970,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to request  AWS Certificate Manager SSL certificate for GitLab domain.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address for SSL certificate registration
+(<code>SslCertificateIssuerEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address to register GitLab TLS certificates. Required if you skip certificate creation.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. GitLab SMTP configuration</caption>
+<caption class="title">Table 30. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2464,39 +2994,39 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create Amazon Simple Email Service domain
-(<code>CreateEmailDomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outgoing SMTP domain
+(<code>SMTPDomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "CreateNew" if you want to create Amazon Simple Email Service domain to send out GitLab notification email messages.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server host name
 (<code>SMTPHostName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server host name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server host name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server port
 (<code>SMTPPort</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>587</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server port.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server port.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server user name
 (<code>SMTPUsername</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server username.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server username.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SMTP server password
 (<code>SMTPPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose not to use Amazon Simple Email Service above, provide SMTP server password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use existing SMTP domain above, provide SMTP server password.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 27. GitLab Helm chart configuration</caption>
+<caption class="title">Table 31. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2531,19 +3061,48 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.5.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.7.0</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 28. GitLab object storage configuration</caption>
+<caption class="title">Table 32. GitLab Git repository storage configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
+(<code>GitalyVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 33. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2584,7 +3143,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 29. AWS Quick Start configuration</caption>
+<caption class="title">Table 34. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2625,7 +3184,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <h2 id="_send_us_feedback">Send us feedback</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To post feedback, submit feature ideas, or report bugs, use the <strong>Issues</strong> section of the <a href="https://github.com/aws-quickstart/quickstart-documentation-base" target="_blank" rel="noopener">GitHub repository</a> for this Quick Start. To submit code, see the <a href="https://aws-quickstart.github.io/" target="_blank" rel="noopener">Quick Start Contributor’s Guide</a>.</p>
+<p>To post feedback, submit feature ideas, or report bugs, use the <strong>Issues</strong> section of the <a href="https://github.com/aws-quickstart/quickstart-eks-gitlab" target="_blank" rel="noopener">GitHub repository</a> for this Quick Start. To submit code, see the <a href="https://aws-quickstart.github.io/" target="_blank" rel="noopener">Quick Start Contributor’s Guide</a>.</p>
 </div>
 </div>
 </div>
@@ -2641,7 +3200,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <h2 id="_github_repository">GitHub repository</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Visit our <a href="https://github.com/aws-quickstart/quickstart-documentation-base" target="_blank" rel="noopener">GitHub repository</a> to download
+<p>Visit our <a href="https://github.com/aws-quickstart/quickstart-eks-gitlab" target="_blank" rel="noopener">GitHub repository</a> to download
 the templates and scripts for this Quick Start, to post your comments,
 and to share your customizations with others.</p>
 </div>
@@ -2663,7 +3222,7 @@ and to share your customizations with others.</p>
 <p class="footer-text">
 <!-- We can use document attributes: -->
 <!-- Generated with Asciidoctor v2.0.12. -->
-<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates and Example Company Name, Ltd.. All rights reserved.
+<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates and GitLab Inc.. All rights reserved.
 </p>
 </body>
 </html>
