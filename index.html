@@ -898,6 +898,46 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <div class="paragraph">
 <p>&lt;Describe how the software works on AWS.&gt;</p>
 </div>
+<div class="paragraph">
+<p>GitLab is deployed ek Amazon EKS cluster as a <a href="https://docs.gitlab.com/charts/">Helm chart</a>.</p>
+</div>
+<div class="paragraph">
+<p>This Quick Start integrates with the following AWS services:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a> infrastructure as code GitLab deployment</p>
+</li>
+<li>
+<p>Highly Available <a href="https://aws.amazon.com/eks/">Amazon EKS</a> cluster</p>
+</li>
+<li>
+<p>Highly Available <a href="https://aws.amazon.com/rds/postgresql/">Amazon RDS Postgres</a> database cluster</p>
+</li>
+<li>
+<p>Highly Available <a href="https://aws.amazon.com/elasticache/redis/">Amazon ElasteCache for Redis</a> cluster</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/s3/">Amazon S3</a> object storage</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/cloudwatch/">Amazon CloudWatch</a> integration for logs and metrics</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/route53/">Amazon Route53</a> hosted zone for DNS configuration</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/certificate-manager/">AWS Certificate Manager</a> integration for TLS certificates<sup>*</sup></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/ses/">Amazon Simple Email Service</a> for sending out email notifications <sup>*</sup></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small"><sup>*</sup> May not be available in all regions. Check <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/">AWS Regional Services List</a></span></p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1424,15 +1464,138 @@ Cloud.</p>
 <div class="sect3">
 <h4 id="_supported_regions">Supported Regions</h4>
 <div class="paragraph">
-<p>This Quick Start supports the following Regions:</p>
+<p>This Quick Start supports the following Regions (regions where Amazon EKS is supported):</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>us-east-1, US East (N. Virginia) (EXAMPLE)</p>
+<p>US East</p>
+<div class="ulist">
+<ul>
+<li>
+<p>us-east-1, N. Virginia</p>
 </li>
 <li>
-<p>us-east-2, US East (Ohio) (EXAMPLE)</p>
+<p>us-east-2, Ohio</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>US West</p>
+<div class="ulist">
+<ul>
+<li>
+<p>us-west-1, N. California</p>
+</li>
+<li>
+<p>us-west-2, Oregon</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Africa</p>
+<div class="ulist">
+<ul>
+<li>
+<p>af-south-1, Cape Town</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Asia Pacific</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ap-east-1, Hong Kong</p>
+</li>
+<li>
+<p>ap-south-1, Mumbai</p>
+</li>
+<li>
+<p>ap-northeast-2, Seoul</p>
+</li>
+<li>
+<p>ap-southeast-1, Singapore</p>
+</li>
+<li>
+<p>ap-southeast-2, Sydney</p>
+</li>
+<li>
+<p>ap-northeast-1, Tokyo</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Canada</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ca-central-1, Central</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>China</p>
+<div class="ulist">
+<ul>
+<li>
+<p>cn-north-1, Beijing</p>
+</li>
+<li>
+<p>cn-northwest-1, Ningxia</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Europe</p>
+<div class="ulist">
+<ul>
+<li>
+<p>eu-central-1, Frankfurt</p>
+</li>
+<li>
+<p>eu-west-1, Ireland</p>
+</li>
+<li>
+<p>eu-west-2, London</p>
+</li>
+<li>
+<p>eu-south-1, Milan</p>
+</li>
+<li>
+<p>eu-west-3, Paris</p>
+</li>
+<li>
+<p>eu-north-1, Stockholm</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Middle East</p>
+<div class="ulist">
+<ul>
+<li>
+<p>me-south-1, Bahrain</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>South America</p>
+<div class="ulist">
+<ul>
+<li>
+<p>sa-east-1, São Paulo</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -2246,7 +2409,42 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. AWS Quick Start configuration</caption>
+<caption class="title">Table 13. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2284,7 +2482,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Basic configuration</caption>
+<caption class="title">Table 15. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2331,7 +2529,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. VPC network configuration</caption>
+<caption class="title">Table 16. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2396,7 +2594,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Bastion host configuration</caption>
+<caption class="title">Table 17. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2419,7 +2617,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 18. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2490,7 +2688,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 19. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2543,7 +2741,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. GitLab infrastructure configuration</caption>
+<caption class="title">Table 20. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2584,7 +2782,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. GitLab SMTP configuration</caption>
+<caption class="title">Table 21. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2631,7 +2829,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. GitLab Helm chart configuration</caption>
+<caption class="title">Table 22. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2672,7 +2870,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 23. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2707,7 +2905,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. GitLab object storage configuration</caption>
+<caption class="title">Table 24. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2748,7 +2946,42 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. AWS Quick Start configuration</caption>
+<caption class="title">Table 25. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 26. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2786,7 +3019,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. Basic configuration</caption>
+<caption class="title">Table 27. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2809,7 +3042,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. VPC network configuration</caption>
+<caption class="title">Table 28. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2850,7 +3083,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 27. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 29. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2871,6 +3104,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">EKS cluster to install GitLab in.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node group security group
+(<code>NodeGroupSecurityGroup</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS cluster node group security group.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
@@ -2885,7 +3124,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 28. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 30. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2938,7 +3177,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 29. GitLab infrastructure configuration</caption>
+<caption class="title">Table 31. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2979,7 +3218,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 30. GitLab SMTP configuration</caption>
+<caption class="title">Table 32. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3026,7 +3265,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 31. GitLab Helm chart configuration</caption>
+<caption class="title">Table 33. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3067,7 +3306,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 32. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 34. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3102,7 +3341,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 33. GitLab object storage configuration</caption>
+<caption class="title">Table 35. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3143,7 +3382,42 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 34. AWS Quick Start configuration</caption>
+<caption class="title">Table 36. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 37. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">

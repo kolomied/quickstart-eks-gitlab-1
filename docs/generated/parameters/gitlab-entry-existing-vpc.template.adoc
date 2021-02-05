@@ -98,6 +98,14 @@
 (`BackupSchedule`)|`0 1 * * *`|cron expression that is used to run GitLab backup jobs (default is daily at 1am).|Object storage backup volume capacity
 (`BackupVolumeSize`)|`10`|Capacity of EBS volume used for GitLab backups, in Gb.
 |===
+.GitLab cache configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Cache mode
+(`CacheMode`)|`BuiltIn`|Use built-in cache or provision external Amazon ElastiCache Redis cluster.|Number of cache replicas
+(`CacheNodes`)|`2`|Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).|Cache node type
+(`CacheNodeType`)|`cache.t3.medium`|If you chose to use External cache above, provide cache node type.
+|===
 .AWS Quick Start configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
