@@ -60,12 +60,14 @@
 (`HelmChartNamespaceCreate`)|`CreateNew`|Create new or use exicting Kubernetes namespace for GitLab chart deployment.|Kubernetes namespace for GitLab Helm chart
 (`HelmChartNamespace`)|`gitlab`|Kubernetes namespace to deploy GitLab chart to.|GitLab Helm chart name
 (`HelmChartName`)|`gitlab`|Name of Helm GitLab deployment.|GitLab Helm chart version
-(`HelmChartVersion`)|`4.8.1`|Version of GitLab Helm chart GitLab for deployment.
+(`HelmChartVersion`)|`4.9.4`|Version of GitLab Helm chart GitLab for deployment.
 |===
 .GitLab Git repository storage configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Number of Praefect replicas
+|Parameter label (name) |Default value|Description|Praefect instance type
+(`PraefectInstanceType`)|`t3.medium`|Praefect EC2 instance type.|Gitaly instance type
+(`GitalyInstanceType`)|`t3.medium`|Gitaly EC2 instance type.|Number of Praefect replicas
 (`NumberOfPraefectReplicas`)|`3`|Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Number of Gitaly replicas
 (`NumberOfGitalyReplicas`)|`3`|Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Gitaly volume capacity
 (`GitalyVolumeSize`)|`50`|Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.

@@ -1286,6 +1286,11 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Route53 hosted zone name</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/cluster/name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS Cluster name</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/artifacts</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 Artifacts bucket name</p></td>
@@ -1329,11 +1334,6 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 <td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/storage/buckets/uploads</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 Uploads bucket name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">/quickstart/gitlab/<code>{env-name}</code>/secrets/initial-root-password</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SSM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab load balancer DNS name</p></td>
 </tr>
 </tbody>
 </table>
@@ -2327,7 +2327,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.8.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
 </tr>
 </tbody>
@@ -2347,6 +2347,18 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
+(<code>GitalyInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
 (<code>NumberOfPraefectReplicas</code>)</p></td>
@@ -2864,7 +2876,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.8.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
 </tr>
 </tbody>
@@ -2884,6 +2896,18 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
+(<code>GitalyInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
 (<code>NumberOfPraefectReplicas</code>)</p></td>
@@ -3300,7 +3324,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.8.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
 </tr>
 </tbody>
@@ -3320,6 +3344,18 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
+(<code>GitalyInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
 (<code>NumberOfPraefectReplicas</code>)</p></td>
