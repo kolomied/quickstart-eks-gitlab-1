@@ -27,7 +27,8 @@
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Provision a bastion host
-(`ProvisionBastionHost`)|`Disabled`|Choose "Enabled" to provision a bastion host to access EKS cluster instances.
+(`ProvisionBastionHost`)|`Disabled`|Choose "Enabled" to provision a bastion host to access EKS cluster instances.|Instance type
+(`BastionInstanceType`)|`t3.micro`|Instance type for the bastion host.
 |===
 .Amazon EKS cluster configuration
 [width="100%",cols="16%,11%,73%",options="header",]
