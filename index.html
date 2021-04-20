@@ -2462,7 +2462,60 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. AWS Quick Start configuration</caption>
+<caption class="title">Table 14. GitLab Runner configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure GitLab Runner
+(<code>ConfigureRunner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+(<code>RunnerChartName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner chart version
+(<code>RunnerChartVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0.27.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Runner Helm chart for deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default runner image
+(<code>RunnerImage</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ubuntu:20.04</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default GitLab Runner image.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max number of concurrent jobs
+(<code>MaximumConcurrentJobs</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+(<code>PriviligedMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2500,7 +2553,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Basic configuration</caption>
+<caption class="title">Table 16. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2547,7 +2600,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. VPC network configuration</caption>
+<caption class="title">Table 17. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2612,7 +2665,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Bastion host configuration</caption>
+<caption class="title">Table 18. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2641,7 +2694,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 19. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2712,7 +2765,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 20. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2765,7 +2818,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. GitLab infrastructure configuration</caption>
+<caption class="title">Table 21. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2806,7 +2859,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. GitLab SMTP configuration</caption>
+<caption class="title">Table 22. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2853,7 +2906,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. GitLab Helm chart configuration</caption>
+<caption class="title">Table 23. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2894,7 +2947,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 24. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2941,7 +2994,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. GitLab object storage configuration</caption>
+<caption class="title">Table 25. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2982,7 +3035,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. GitLab cache configuration</caption>
+<caption class="title">Table 26. GitLab cache configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3017,7 +3070,60 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. AWS Quick Start configuration</caption>
+<caption class="title">Table 27. GitLab Runner configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure GitLab Runner
+(<code>ConfigureRunner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+(<code>RunnerChartName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner chart version
+(<code>RunnerChartVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0.27.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Runner Helm chart for deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default runner image
+(<code>RunnerImage</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ubuntu:20.04</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default GitLab Runner image.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max number of concurrent jobs
+(<code>MaximumConcurrentJobs</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+(<code>PriviligedMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 28. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3055,7 +3161,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 27. Basic configuration</caption>
+<caption class="title">Table 29. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3078,7 +3184,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 28. VPC network configuration</caption>
+<caption class="title">Table 30. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3119,7 +3225,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 29. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 31. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3160,7 +3266,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 30. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 32. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3213,7 +3319,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 31. GitLab infrastructure configuration</caption>
+<caption class="title">Table 33. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3254,7 +3360,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 32. GitLab SMTP configuration</caption>
+<caption class="title">Table 34. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3301,7 +3407,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 33. GitLab Helm chart configuration</caption>
+<caption class="title">Table 35. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3342,7 +3448,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 34. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 36. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3389,7 +3495,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 35. GitLab object storage configuration</caption>
+<caption class="title">Table 37. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3430,7 +3536,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 36. GitLab cache configuration</caption>
+<caption class="title">Table 38. GitLab cache configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3465,7 +3571,60 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 37. AWS Quick Start configuration</caption>
+<caption class="title">Table 39. GitLab Runner configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure GitLab Runner
+(<code>ConfigureRunner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+(<code>RunnerChartName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner chart version
+(<code>RunnerChartVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0.27.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Runner Helm chart for deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default runner image
+(<code>RunnerImage</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ubuntu:20.04</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default GitLab Runner image.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max number of concurrent jobs
+(<code>MaximumConcurrentJobs</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+(<code>PriviligedMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 40. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">

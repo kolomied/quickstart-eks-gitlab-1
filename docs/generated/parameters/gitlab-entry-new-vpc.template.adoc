@@ -110,6 +110,17 @@
 (`CacheNodes`)|`2`|Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).|Cache node type
 (`CacheNodeType`)|`cache.t3.medium`|If you chose to use External cache above, provide cache node type.
 |===
+.GitLab Runner configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Configure GitLab Runner
+(`ConfigureRunner`)|`No`|Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.|GetLab Runner Helm chart name
+(`RunnerChartName`)|`runner`|Name of Helm GitLab Runner deployment.|GitLab Runner chart version
+(`RunnerChartVersion`)|`0.27.0`|Version of GitLab Runner Helm chart for deployment.|Default runner image
+(`RunnerImage`)|`ubuntu:20.04`|Default GitLab Runner image.|Max number of concurrent jobs
+(`MaximumConcurrentJobs`)|`10`|The maximum number of concurrent jobs.|Use proviliged mode
+(`PriviligedMode`)|`No`|Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.
+|===
 .AWS Quick Start configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
