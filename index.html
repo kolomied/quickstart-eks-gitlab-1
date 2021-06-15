@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="generator" content="Asciidoctor 2.0.15">
 <title>GitLab on the AWS Cloud</title>
 <style>
 
@@ -1957,37 +1957,21 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Environment name
 (<code>EnvironmentName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment. Leave empty to use dynamically generated name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment (leave empty to use dynamically generated name).
+Environment name is used to generate unique resource names.
+Multiple GitLab environments with different names can be deployed in the same region.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
 (<code>AvailabilityZones</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
-(<code>RemoteAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SSH key name
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH key pair name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Per-account shared resources
-(<code>PerAccountSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Per-Region shared resources
-(<code>PerRegionSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your Region.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2075,13 +2059,21 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provision a bastion host
 (<code>ProvisionBastionHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster instances.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster.
+Bastion host includes kubectl and helm tools already configured for EKS cluster access.
+Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
 (<code>BastionInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.micro</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for the bastion host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
+(<code>RemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2104,7 +2096,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">EKS public access endpoint
 (<code>EKSPublicAccessEndpoint</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure access to the Kubernetes API server endpoint from outside of your VPC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure access to the Kubernetes API server endpoint from outside of your VPC.
+Public API endpoint is not recommended for production environments. Use bastion host for cluster management instead.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional EKS admin ARN (IAM user)
@@ -2119,25 +2112,27 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) IAM role Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS node instance type
 (<code>NodeInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type of EKS nodes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node volume capacity
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS node volume capacity
 (<code>NodeVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS node instances, in Gb.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS nodes, in Gb.
+Note that in default configuration no GitLab data is stored on EBS volumes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of nodes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of EKS nodes
 (<code>NumberOfNodes</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Amazon EKS node instances. The default is one for each of the three Availability Zones.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Amazon EKS node instances.
+Should have a minimum value matching the number of Availability Zones configured for GitLab deployment.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of nodes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of EKS nodes
 (<code>MaxNumberOfNodes</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of Amazon EKS node instances. The default is three.</p></td>
@@ -2145,8 +2140,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
@@ -2175,7 +2170,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
+This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
+The instance class is applied to both primary and standby instances.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -2199,7 +2196,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database admin password
 (<code>DBUserPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.
+Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / @ " ') symbol.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database port
@@ -2210,7 +2208,44 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. GitLab infrastructure configuration</caption>
+<caption class="title">Table 8. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
+For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
+For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2251,7 +2286,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. GitLab SMTP configuration</caption>
+<caption class="title">Table 10. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2298,7 +2333,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. GitLab Helm chart configuration</caption>
+<caption class="title">Table 11. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2333,13 +2368,19 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab application version
+(<code>GitLabVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>13.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab application - must correspond to helm chart version above. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 12. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2381,12 +2422,14 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
 (<code>GitalyVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
+Note that this storage is used for Git repositories only.
+All other object storage files are stored in S3 buckets.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. GitLab object storage configuration</caption>
+<caption class="title">Table 13. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2404,7 +2447,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object storage encryption algorithm
 (<code>ObjectStorageSSEAlgorithm</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AES256</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Encryption algorithm for GitLab object storage artifacts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab will be configured to use object storage for everything that is capable of using it (artifacts, packages, lfs, etc.).
+Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KMS key ID
@@ -2423,41 +2467,6 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 (<code>BackupVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used for GitLab backups, in Gb.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. GitLab cache configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
-(<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
-(<code>CacheNodes</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
-(<code>CacheNodeType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2483,7 +2492,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner Helm chart name
 (<code>RunnerChartName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
@@ -2507,10 +2516,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use privileged mode
 (<code>PriviligedMode</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled.
+This will allow the docker:dind image to run if you need to run Docker.
+For test purposes only. Not recommended for production environments.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2538,7 +2549,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
 (<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-examples/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-eks-gitlab/</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
 </tr>
 <tr>
@@ -2546,6 +2557,18 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 (<code>QSS3BucketRegion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per-account shared resources
+(<code>PerAccountSharedResources</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per-Region shared resources
+(<code>PerRegionSharedResources</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your Region.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2571,31 +2594,15 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Environment name
 (<code>EnvironmentName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment. Leave empty to use dynamically generated name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment (leave empty to use dynamically generated name).
+Environment name is used to generate unique resource names.
+Multiple GitLab environments with different names can be deployed in the same region.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
-(<code>RemoteAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SSH key name
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH key pair name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Per-account shared resources
-(<code>PerAccountSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Per-Region shared resources
-(<code>PerRegionSharedResources</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your Region.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2683,13 +2690,21 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provision a bastion host
 (<code>ProvisionBastionHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster instances.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster.
+Bastion host includes kubectl and helm tools already configured for EKS cluster access.
+Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
 (<code>BastionInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.micro</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for the bastion host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
+(<code>RemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2712,7 +2727,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">EKS public access endpoint
 (<code>EKSPublicAccessEndpoint</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure access to the Kubernetes API server endpoint from outside of your VPC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure access to the Kubernetes API server endpoint from outside of your VPC.
+Public API endpoint is not recommended for production environments. Use bastion host for cluster management instead.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional EKS admin ARN (IAM user)
@@ -2727,25 +2743,27 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) IAM role Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS node instance type
 (<code>NodeInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 instance type of EKS nodes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node volume capacity
+<td class="tableblock halign-left valign-top"><p class="tableblock">EKS node volume capacity
 (<code>NodeVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS node instances, in Gb.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by EKS nodes, in Gb.
+Note that in default configuration no GitLab data is stored on EBS volumes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of nodes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of EKS nodes
 (<code>NumberOfNodes</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Amazon EKS node instances. The default is one for each of the three Availability Zones.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Amazon EKS node instances.
+Should have a minimum value matching the number of Availability Zones configured for GitLab deployment.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of nodes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of EKS nodes
 (<code>MaxNumberOfNodes</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of Amazon EKS node instances. The default is three.</p></td>
@@ -2753,8 +2771,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
@@ -2783,7 +2801,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
+This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
+The instance class is applied to both primary and standby instances.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -2807,7 +2827,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database admin password
 (<code>DBUserPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.
+Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / @ " ') symbol.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database port
@@ -2818,7 +2839,44 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. GitLab infrastructure configuration</caption>
+<caption class="title">Table 21. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
+For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
+For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 22. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2859,7 +2917,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. GitLab SMTP configuration</caption>
+<caption class="title">Table 23. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2906,7 +2964,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. GitLab Helm chart configuration</caption>
+<caption class="title">Table 24. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2924,7 +2982,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes namespace creation mode
 (<code>HelmChartNamespaceCreate</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CreateNew</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create new or use exicting Kubernetes namespace for GitLab chart deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create new or use existing Kubernetes namespace for GitLab chart deployment.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes namespace for GitLab Helm chart
@@ -2941,13 +2999,19 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab application version
+(<code>GitLabVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>13.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab application - must correspond to helm chart version above. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 25. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2989,12 +3053,14 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
 (<code>GitalyVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
+Note that this storage is used for Git repositories only.
+All other object storage files are stored in S3 buckets.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. GitLab object storage configuration</caption>
+<caption class="title">Table 26. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3012,7 +3078,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object storage encryption algorithm
 (<code>ObjectStorageSSEAlgorithm</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AES256</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Encryption algorithm for GitLab object storage artifacts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab will be configured to use object storage for everything that is capable of using it (artifacts, packages, lfs, etc.).
+Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KMS key ID
@@ -3031,41 +3098,6 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 (<code>BackupVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used for GitLab backups, in Gb.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. GitLab cache configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
-(<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
-(<code>CacheNodes</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
-(<code>CacheNodeType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3091,7 +3123,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner Helm chart name
 (<code>RunnerChartName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
@@ -3115,10 +3147,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use privileged mode
 (<code>PriviligedMode</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled.
+This will allow the docker:dind image to run if you need to run Docker.
+For test purposes only. Not recommended for production environments.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3146,7 +3180,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
 (<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-examples/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-eks-gitlab/</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
 </tr>
 <tr>
@@ -3154,6 +3188,18 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 (<code>QSS3BucketRegion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per-account shared resources
+(<code>PerAccountSharedResources</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your AWS account.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per-Region shared resources
+(<code>PerRegionSharedResources</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AutoDetect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" if you already deployed another EKS Quick Start stack in your Region.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3179,7 +3225,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Environment name
 (<code>EnvironmentName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment. Leave empty to use dynamically generated name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the GitLab environment (leave empty to use dynamically generated name).
+Environment name is used to generate unique resource names.
+Multiple GitLab environments with different names can be deployed in the same region.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3284,7 +3332,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
+This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
+The instance class is applied to both primary and standby instances.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -3308,7 +3358,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database admin password
 (<code>DBUserPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password.
+Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / @ " ') symbol.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database port
@@ -3319,7 +3370,44 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 33. GitLab infrastructure configuration</caption>
+<caption class="title">Table 33. GitLab cache configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+(<code>CacheMode</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
+(<code>CacheNodes</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
+For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
+For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
+(<code>CacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 34. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3360,7 +3448,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 34. GitLab SMTP configuration</caption>
+<caption class="title">Table 35. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3407,7 +3495,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 35. GitLab Helm chart configuration</caption>
+<caption class="title">Table 36. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3425,7 +3513,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes namespace creation mode
 (<code>HelmChartNamespaceCreate</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CreateNew</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create new or use exicting Kubernetes namespace for GitLab chart deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create new or use existing Kubernetes namespace for GitLab chart deployment.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes namespace for GitLab Helm chart
@@ -3442,13 +3530,19 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Helm chart version
 (<code>HelmChartVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.9.4</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab Helm chart GitLab for deployment. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab application version
+(<code>GitLabVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>13.12.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of GitLab application - must correspond to helm chart version above. See <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" class="bare">https://docs.gitlab.com/charts/installation/version_mappings.html</a>.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 36. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 37. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3490,12 +3584,14 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
 (<code>GitalyVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
+Note that this storage is used for Git repositories only.
+All other object storage files are stored in S3 buckets.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 37. GitLab object storage configuration</caption>
+<caption class="title">Table 38. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3513,7 +3609,8 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object storage encryption algorithm
 (<code>ObjectStorageSSEAlgorithm</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AES256</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Encryption algorithm for GitLab object storage artifacts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab will be configured to use object storage for everything that is capable of using it (artifacts, packages, lfs, etc.).
+Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KMS key ID
@@ -3532,41 +3629,6 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 (<code>BackupVolumeSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used for GitLab backups, in Gb.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 38. GitLab cache configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
-(<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
-(<code>CacheNodes</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
-(<code>CacheNodeType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3592,7 +3654,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable deployment of test GitLab Runner inside EKS cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GetLab Runner Helm chart name
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab Runner Helm chart name
 (<code>RunnerChartName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>runner</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of Helm GitLab Runner deployment.</p></td>
@@ -3616,10 +3678,12 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of concurrent jobs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use proviliged mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use privileged mode
 (<code>PriviligedMode</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled. This will allow the docker:dind image to run if you need to run Docker.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to run all containers with the privileged flag enabled.
+This will allow the docker:dind image to run if you need to run Docker.
+For test purposes only. Not recommended for production environments.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3647,7 +3711,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
 (<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-examples/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-eks-gitlab/</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
 </tr>
 <tr>
@@ -3702,7 +3766,7 @@ and to share your customizations with others.</p>
 </div>
 <p class="footer-text">
 <!-- We can use document attributes: -->
-<!-- Generated with Asciidoctor v2.0.12. -->
+<!-- Generated with Asciidoctor v2.0.15. -->
 <a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates and GitLab Inc.. All rights reserved.
 </p>
 </body>
