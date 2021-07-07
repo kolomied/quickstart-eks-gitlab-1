@@ -145,7 +145,7 @@ Resources:
 
   CleanupACMDNSValidationLambdaRole:
     Type: AWS::IAM::Role
-    Condition: EmailDomainRequested
+    Condition: CertificateRequested
     Properties:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
@@ -172,7 +172,7 @@ Resources:
 
   CleanupACMDNSValidationLambdaFunction:
     Type: AWS::Lambda::Function
-    Condition: EmailDomainRequested
+    Condition: CertificateRequested
     Properties:
       Handler: handler.handler
       Runtime: python3.8
