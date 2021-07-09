@@ -7,8 +7,8 @@
 Environment name is used to generate unique resource names.
 Multiple GitLab environments with different names can be deployed in the same region.
 |Availability Zones
-(`AvailabilityZones`)|`**__Requires input__**`|List of Availability Zones to use for the subnets in the VPC.|SSH key pair name
-(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.
+(`AvailabilityZones`)|`**__Requires input__**`|List of Availability Zones to use for the subnets in the VPC. Pick only as many as match what was selected for Number of Availability Zones (NumberofAZs).|SSH key pair name
+(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches. If the selection list is blank, you must create a keypair in the target region, refresh this form and select it.
 |===
 .VPC network configuration
 [width="100%",cols="16%,11%,73%",options="header",]
@@ -30,9 +30,10 @@ Multiple GitLab environments with different names can be deployed in the same re
 (`ProvisionBastionHost`)|`Disabled`|Choose "Enabled" to provision a bastion host to access EKS cluster.
 Bastion host includes kubectl and helm tools already configured for EKS cluster access.
 Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.
-|Instance type
+Select a larger instance size to do performance testing from the bastion host using GitLab Performance Tool (gpt).
+|Bastion host instance type
 (`BastionInstanceType`)|`t3.micro`|Instance type for the bastion host.|Allowed bastion external access CIDR
-(`RemoteAccessCIDR`)|`**__Requires input__**`|CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.
+(`RemoteAccessCIDR`)|`**__Requires input__**`|CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range. If the BastionHost is enabled, then this parameter is required
 |===
 .Amazon EKS cluster configuration
 [width="100%",cols="16%,11%,73%",options="header",]
@@ -51,16 +52,23 @@ Note that in default configuration no GitLab data is stored on EBS volumes.
 Should have a minimum value matching the number of Availability Zones configured for GitLab deployment.
 |Maximum number of EKS nodes
 (`MaxNumberOfNodes`)|`6`|Maximum number of Amazon EKS node instances. The default is three.|Configure Container Insights
-(`ConfigureContainerInsights`)|`Yes`|Choose "No" to disable integration with CloudWatch Container Insights.|Configure Grafana
-(`ConfigureGrafana`)|`No`|Choose "Yes" to enable integration with Grafana.
+(`ConfigureContainerInsights`)|`Yes`|Choose "No" to disable integration with CloudWatch Container Insights. 
+Container insights ensure pod performance metrics and logs are collected to CloudWatch - including Gitlab application logs.
+|Provision and integrate Grafana
+(`ConfigureGrafana`)|`No`|Choose "Yes" to provision Grafana to EKS and enable GitLab integration with it.
 |===
 .Amazon Aurora Postgres configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|GitLab database instance class
+|Parameter label (name) |Default value|Description|GitLab PostgreSQL version
+(`DBEngineVersion`)|`12.4`|Select Database Engine Version.
+The version must be supported by your target version of GitLab: https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later
+And by the Aurora RDS Instance type you choose: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
+|GitLab database instance class
 (`DBInstanceClass`)|`db.r5.large`|The name of the compute and memory capacity class of the database instance.
 This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
 The instance class is applied to both primary and standby instances.
+The instance class you choose must support the needed PostgreSQL version: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
 |GitLab database name
 (`DBName`)|`gitlab`|Name of the GitLab Postgres database.|Praefect database name
 (`DBPraefectName`)|`praefect`|Name of the Praefect Postgres database.|Database admin username
@@ -73,13 +81,18 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 .GitLab cache configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Cache mode
-(`CacheMode`)|`BuiltIn`|Use built-in cache or provision external Amazon ElastiCache Redis cluster.|Number of cache replicas
+|Parameter label (name) |Default value|Description|Where to provision Redis
+(`CacheMode`)|`External`|'BuiltIn' will install Redis in the EKS cluster while 'External' provisions Amazon ElastiCache Redis. 
+GitLab Redis in Kubernetes clusters is not GitLab reference architecture compliant and only for training or testing setups.
+|Number of cache replicas
 (`CacheNodes`)|`2`|Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
 For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
-For External mode this is the total number of Amazon ElastiCache Redis clusters.
+For External mode this is the total number of nodes used for Redis.
+This should match the number of Availability Zones you are configuring for.
 |Cache node type
 (`CacheNodeType`)|`cache.t3.medium`|If you chose to use External cache above, provide cache node type.
+List of acceptable instance types: https://aws.amazon.com/elasticache/pricing/
+
 |===
 .GitLab infrastructure configuration
 [width="100%",cols="16%,11%,73%",options="header",]
@@ -112,14 +125,23 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 .GitLab Git repository storage configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Praefect instance type
-(`PraefectInstanceType`)|`t3.medium`|Praefect EC2 instance type.|Gitaly instance type
-(`GitalyInstanceType`)|`t3.medium`|Gitaly EC2 instance type.|Number of Praefect replicas
-(`NumberOfPraefectReplicas`)|`3`|Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Number of Gitaly replicas
-(`NumberOfGitalyReplicas`)|`3`|Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.|Gitaly volume capacity
+|Parameter label (name) |Default value|Description|Number of Gitaly replicas
+(`NumberOfGitalyReplicas`)|`3`|Number of Gitaly replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.
+|Gitaly instance type
+(`GitalyInstanceType`)|`t3.medium`|Gitaly EC2 instance type.
+Select an instance from this list: https://aws.amazon.com/ec2/instance-types/
+|Gitaly volume capacity
 (`GitalyVolumeSize`)|`50`|Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb. 
 Note that this storage is used for Git repositories only. 
-All other object storage files are stored in S3 buckets.
+All other GitLab storage types are stored in S3 buckets.
+|Number of Praefect replicas
+(`NumberOfPraefectReplicas`)|`3`|Praefect coordinates Gitaly cluster replication. Number of Praefect replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.
+3 are required because Prafect replicas perform voting for data consistency and so an odd number are needed.
+|Praefect instance type
+(`PraefectInstanceType`)|`t3.medium`|Praefect EC2 instance type.
+Select an instance from this list: https://aws.amazon.com/ec2/instance-types/
 
 |===
 .GitLab object storage configuration

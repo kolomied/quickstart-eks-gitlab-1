@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>GitLab on the AWS Cloud</title>
+<title>Overview</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -790,36 +790,70 @@ p.footer-text a{color:#d7d8d8}
 <div id="toctitle"></div>
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
+<li><a href="#_built_in_value_of_aws_quick_starts">Built-in Value of AWS Quick Starts</a>
+<ul class="sectlevel2">
+<li><a href="#_market_reach_and_reuse">Market Reach and Reuse</a></li>
+<li><a href="#_quick_start_active_open_source_community">Quick Start Active Open Source Community</a></li>
+</ul>
+</li>
 <li><a href="#_gitlab_on_aws">GitLab on AWS</a></li>
 <li><a href="#_cost">Cost</a></li>
 <li><a href="#_software_licenses">Software licenses</a></li>
 <li><a href="#_architecture">Architecture</a>
 <ul class="sectlevel2">
-<li><a href="#_database_cluster">Database Cluster</a></li>
-<li><a href="#_object_storage">Object storage</a></li>
-<li><a href="#_backups">Backups</a></li>
-<li><a href="#_telemetry">Telemetry</a></li>
+<li><a href="#_architecture_diagram">Architecture Diagram</a></li>
+<li><a href="#_architecture_details">Architecture Details</a></li>
+<li><a href="#_bundled_provisioning_of_container_registry_backup_log_aggregation_and_monitoring">Bundled Provisioning of Container Registry, Backup, Log Aggregation and Monitoring</a></li>
+<li><a href="#_security">Security</a></li>
+<li><a href="#_database">Database</a></li>
+<li><a href="#_gitlab_storage">GitLab Storage</a></li>
+<li><a href="#_gitlab_backups">GitLab Backups</a></li>
+<li><a href="#_gitlab_telemetry_and_monitoring">GitLab Telemetry and Monitoring</a></li>
+<li><a href="#_cloudwatch_container_insights">CloudWatch Container Insights</a></li>
 <li><a href="#_exports">Exports</a></li>
 </ul>
 </li>
 <li><a href="#_planning_the_deployment">Planning the deployment</a>
 <ul class="sectlevel2">
 <li><a href="#_specialized_knowledge">Specialized knowledge</a></li>
+<li><a href="#_gitlab_instance_version_selection">GitLab Instance Version Selection</a></li>
+<li><a href="#_gitlab_migrations_and_versions">GitLab Migrations and Versions</a></li>
+<li><a href="#_gitlab_internet_ingress">GitLab Internet Ingress</a></li>
+<li><a href="#_planning_instances_types_sizes_and_numbers">Planning Instances Types, Sizes and Numbers</a></li>
+<li><a href="#_planning_post_installation_considerations">Planning Post-Installation Considerations</a></li>
 <li><a href="#_aws_account">AWS account</a></li>
 <li><a href="#_technical_requirements">Technical requirements</a></li>
 </ul>
 </li>
 <li><a href="#_deployment_steps">Deployment steps</a>
 <ul class="sectlevel2">
+<li><a href="#_reference_architecture_compliance">Reference Architecture Compliance</a></li>
 <li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
+<li><a href="#_retrieving_credentials_and_logging_in_to_gitlab">Retrieving Credentials and Logging In to GitLab</a></li>
+<li><a href="#_accessing_kubernetes">Accessing Kubernetes</a></li>
+<li><a href="#_enabling_aws_simple_email_services_ses_outbound_email">Enabling AWS Simple Email Services (SES) Outbound Email</a></li>
+<li><a href="#_accessing_grafana">Accessing Grafana</a></li>
 </ul>
 </li>
 <li><a href="#_test_the_deployment">Test the deployment</a></li>
-<li><a href="#_post_deployment_steps">Post-deployment steps</a></li>
-<li><a href="#_best_practices_for_using_gitlab_on_aws">Best practices for using GitLab on AWS</a></li>
-<li><a href="#_security">Security</a></li>
-<li><a href="#_other_useful_information">Other useful information</a></li>
+<li><a href="#_post_deployment_steps">Post-deployment steps</a>
+<ul class="sectlevel2">
+<li><a href="#_configuring_gitlab_for_kubernetes_cluster_provisioning_on_eks">Configuring GitLab for Kubernetes Cluster Provisioning on EKS</a></li>
+<li><a href="#_configuring_gitlab_to_integrate_with_existing_eks_clusters">Configuring GitLab to integrate with Existing EKS Clusters</a></li>
+</ul>
+</li>
+<li><a href="#_sre_practices_for_using_gitlab_on_aws">SRE practices for using GitLab on AWS</a>
+<ul class="sectlevel2">
+<li><a href="#_log_monitoring_using_cloudwatch_logs">Log monitoring Using CloudWatch Logs</a></li>
+<li><a href="#_performance_monitoring">Performance monitoring</a></li>
+</ul>
+</li>
+<li><a href="#_security_2">Security</a>
+<ul class="sectlevel2">
+<li><a href="#_public_internet_access">Public Internet Access</a></li>
+</ul>
+</li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a>
@@ -839,6 +873,18 @@ p.footer-text a{color:#d7d8d8}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Developer Preview Only
+</td>
+</tr>
+</table>
+</div>
 <h2 id="_gitlab_on_the_aws_cloud" class="discrete text-center">GitLab on the AWS Cloud</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
@@ -849,7 +895,7 @@ p.footer-text a{color:#d7d8d8}
 <div class="paragraph text-center">
 <p><strong>January 2021</strong><br>
 <em>Darwin Sanoy, GitLab Inc.</em><br>
-<em>Dmitry Kolomiets, Andy Wong, AWS Quick Start team</em></p>
+<em>Dmitry Kolomiets, Andy Wong, Andrew Gargan AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -873,10 +919,55 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying the GitLab Quick Start reference architecture on the AWS Cloud.</p>
+<p>This guide provides instructions for deploying the GitLab Hybrid Reference Architecture for EKS Quick Start on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for users who want a repeatable, customizable reference deployment for GitLab using AWS CloudFormation.</p>
+<p>This Quick Start is for users who want a production grade GitLab instance deployed to AWS infrastructure.</p>
+</div>
+<div class="paragraph">
+<p>GitLab is a Single, Open Solution for managing DevOps and other SDLCs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_built_in_value_of_aws_quick_starts">Built-in Value of AWS Quick Starts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In addition to reference architecture compliance, this Quick Start has these additional value-add features:</p>
+</div>
+<div class="sect2">
+<h3 id="_market_reach_and_reuse">Market Reach and Reuse</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/quickstart/?solutions-all.sort-by=item.additionalFields.sortDate&amp;solutions-all.sort-order=desc">As an AWS Quick Start</a> (Primary Use Case Initiated by AWS) - Production Grade HA-Required 3rd Party Software Deployable in the Fewest Possible Clicks to AWS.</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/quickstart/?solutions-all.sort-by=item.additionalFields.sortDate&amp;solutions-all.sort-order=desc">As an AWS Service Catalog Item</a> - AWS alternative to Service Now self service automation - could be used by large customers or partners to create parameter customized versions</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/controltower/partners/">As an AWS Control Tower Partner Solution</a> - allowing vending of GitLab instances into AWS accounts managed by AWS Control Tower.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quick_start_active_open_source_community">Quick Start Active Open Source Community</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Quick Starts are managed as Open Source with special attention given by AWS Quick Start team and the vendor (GitLab in this case) whose software is the focus of the Quick Start.</p>
+</li>
+<li>
+<p>All Quick Starts are quality tested using CI in many regions when they are changed or when taking new versions of dependent Quick Starts.</p>
+</li>
+<li>
+<p>Relies on included Quick Start dependencies for EKS, PostgreSQL and others - these shared dependencies are used, debugged and improved as community maintained shared dependencies that underlie many AWS Quick Starts.</p>
+</li>
+<li>
+<p><strong>The value of the dependency framework is seen in that any of the EKS Quick Start functionality can be passed through to the GitLab EKS Quick Start easily.</strong> For instance, the support for EKS clusters on AWS Spot Compute can be passed through for non-production setups like training and demos. As an example, any of [these EKS Quick Start settings](<a href="https://aws-quickstart.github.io/quickstart-amazon-eks/#_parameter_reference" class="bare">https://aws-quickstart.github.io/quickstart-amazon-eks/#_parameter_reference</a>) could be surfaced. The GitLab EKS Quick Start depends on a few others that would also pass through any improvement benefits.</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -892,14 +983,15 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
 <h2 id="_gitlab_on_aws">GitLab on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>&lt;Describe how the software works on AWS.&gt;</p>
+<p>GitLab can be deployed to conform to <a href="https://docs.gitlab.com/ee/administration/reference_architectures/10k_users.html#cloud-native-hybrid-reference-architecture-with-helm-charts-alternative">GitLab&#8217;s Cloud Native Hybrid Architecture</a> (for any size), which puts all container compatible elements of GitLab into an Amazon EKS cluster and anything else that can be, is implemented using AWS Services (PaaS).</p>
 </div>
 <div class="paragraph">
-<p>GitLab is deployed ek Amazon EKS cluster as a <a href="https://docs.gitlab.com/charts/">Helm chart</a>.</p>
+<p>GitLab can be configured to utilize many AWS services directly and has been tested with the ones used in this Quick Start Guide. GitLab is built using SOA Service Endpoints - this means that as long as an AWS service endpoint conforms to the relevant standards, you can generally wire GitLab up to it.</p>
 </div>
 <div class="paragraph">
 <p>This Quick Start integrates with the following AWS services:</p>
@@ -910,22 +1002,28 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <p><a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a> infrastructure as code GitLab deployment</p>
 </li>
 <li>
-<p>Highly Available <a href="https://aws.amazon.com/eks/">Amazon EKS</a> cluster</p>
+<p>Highly Available <a href="https://aws.amazon.com/eks/">Amazon EKS</a> cluster.</p>
 </li>
 <li>
-<p>Highly Available <a href="https://aws.amazon.com/rds/postgresql/">Amazon RDS Postgres</a> database cluster</p>
+<p>Highly Available <a href="https://aws.amazon.com/rds/postgresql/">Amazon RDS Postgres</a> database cluster.</p>
 </li>
 <li>
-<p>Highly Available <a href="https://aws.amazon.com/elasticache/redis/">Amazon ElasteCache for Redis</a> cluster</p>
+<p>Highly Available <a href="https://aws.amazon.com/elasticache/redis/">Amazon ElasteCache for Redis</a> cluster.</p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/s3/">Amazon S3</a> object storage</p>
+<p>Highly Available <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Ec2 Auto Scaling groups</a> for Gitaly and Prafect.</p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/cloudwatch/">Amazon CloudWatch</a> integration for logs and metrics</p>
+<p>Highly Available and Durable <a href="https://aws.amazon.com/s3/">Amazon S3</a> object storage.</p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/route53/">Amazon Route53</a> hosted zone for DNS configuration</p>
+<p><a href="https://aws.amazon.com/kms/">AWS KMS</a> for encryption key management.</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/cloudwatch/">Amazon CloudWatch</a> integration for logs and metrics.</p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/route53/">Amazon Route53</a> hosted zone for DNS configuration.</p>
 </li>
 <li>
 <p><a href="https://aws.amazon.com/certificate-manager/">AWS Certificate Manager</a> integration for TLS certificates<sup>*</sup></p>
@@ -972,19 +1070,7 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These two paragraphs provide an example of the details you can provide. Provide links as appropriate.</p>
-</div>
-<div class="paragraph">
-<p>Example content below:</p>
-</div>
-<div class="paragraph">
-<p><em>&lt;license information&gt;This Quick Start requires a license for GitLab. To use the Quick Start in your production environment, sign up for a license at &lt;link&gt;. When you launch the Quick Start, place the license key in an S3 bucket and specify its location.</em></p>
-</div>
-<div class="paragraph">
-<p><em>If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you &lt;n&gt; days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions at &lt;link&gt;.</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;AMI information&gt;The Quick Start requires a subscription to the Amazon Machine Image (AMI) for GitLab, which is available from <a href="https://aws.amazon.com/marketplace/" target="_blank" rel="noopener">AWS Marketplace</a>. Additional pricing, terms, and conditions may apply. For instructions, see <a href="#step-2.-subscribe-to-the-software-ami">step 2</a> in the deployment section.</em></p>
+<p><em>&lt;license information&gt;This Quick Start creates an instance of GitLab Enterprise Edition with a free license (unlicensed). Additional features available in <a href="https://about.gitlab.com/pricing/self-managed/feature-comparison/" target="_blank" rel="noopener">Premium or Ultimate</a>, can be enabled by purchasing by following the information in the <a href="https://about.gitlab.com/pricing/licensing-faq/" target="_blank" rel="noopener">Licensing and Subscription FAQ</a> or by contacting <a href="https://about.gitlab.com/sales/" target="_blank" rel="noopener">Gitlab Sales</a> for a trial license. Once your instance is running, you can use the admin section to add a license file as described in the <a href="https://about.gitlab.com/pricing/licensing-faq/" target="_blank" rel="noopener">Licensing and Subscription FAQ</a></em></p>
 </div>
 </div>
 </div>
@@ -996,11 +1082,42 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 default parameters builds the following GitLab environment in the
 AWS Cloud.</p>
 </div>
+<div class="sect2">
+<h3 id="_architecture_diagram">Architecture Diagram</h3>
 <div id="architecture1" class="imageblock">
 <div class="content">
 <img src="images/architecture_diagram.png" alt="Architecture" width="100%" height="100%">
 </div>
 <div class="title">Figure 1. Quick Start architecture for GitLab on AWS</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_architecture_details">Architecture Details</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Key to architecture and best practice compliance tags</caption>
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 87.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Tag</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><sup>[AWS-WA]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliant with <strong>AWS W</strong>ell <strong>A</strong>rchitected - including favoring PaaS to externalize scaling and availability management and HA / Self-Healing for non-PaaS resources.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><sup>[GL-RAR]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliant with a <strong>G</strong>it<strong>L</strong>ab <strong>R</strong>eference <strong>A</strong>rchitecture <strong>R</strong>equirement or <strong>R</strong>ecommendation - only applied to items where the Reference Architectures actually express an opinion.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The result of this automation is a completely operational GitLab Instance.</p>
 </div>
 <div class="paragraph">
 <p>As shown in <a href="#architecture1">Figure 1</a>, the Quick Start sets up the following:</p>
@@ -1008,17 +1125,17 @@ AWS Cloud.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>A highly available architecture that spans two or three Availability Zones.</p>
+<p>A highly available architecture that spans two or three Availability Zones. <sup>[AWS-WA]</sup></p>
 </li>
 <li>
 <p>A VPC configured with public and private subnets, according to AWS
-best practices, to provide you with your own virtual network on AWS.<sup>1</sup></p>
+best practices, to provide you with your own virtual network on AWS.<sup>1</sup> <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>An Amazon EKS cluster, which creates the Kubernetes control plane.<sup>2</sup></p>
+<p>An Amazon EKS cluster, which creates the Kubernetes control plane.<sup>2</sup> <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>S3 buckets for GitLab object storage</p>
+<p>S3 buckets for GitLab object storage including Git-lfs <sup>[GL-RAR][AWS-WA]</sup></p>
 </li>
 <li>
 <p>In the public subnets:</p>
@@ -1036,35 +1153,60 @@ internet access for resources in the private subnets.<sup>1</sup></p>
 <div class="ulist">
 <ul>
 <li>
-<p>A group of Kubernetes EC2 nodes.<sup>2</sup></p>
+<p>A group of AutoScaling Kubernetes EC2 nodes.<sup>2</sup> <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>An Amazon RDS cluster fot GitLab and Praefect databases.</p>
+<p>An Amazon RDS cluster fot GitLab and Praefect databases. <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>Elasticache for Redis PaaS. <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>S3 Object storage PaaS for all non-git file systems and git-lfs <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>Uses AWS ELB for internal load balancer - Load balancing PaaS. <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>AWS ELB Load Balancing PaaS for external access. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>An ASG with Gitaly nodes spread across Availability Zones. <a href="https://docs.gitlab.com/ee/administration/reference_architectures/10k_users.html#cloud-native-hybrid-reference-architecture-with-helm-charts-alternative" target="_blank" rel="noopener">GitLab&#8217;s Cloud Native Hybrid Reference Architecture</a> calls for Gitaly to be implemented on EC2 Instance compute and to utilize Non-NFS storage for the file system containing Git repositories. <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>An ASG with Praefect nodes spread across Availability Zones. <a href="https://docs.gitlab.com/ee/administration/reference_architectures/10k_users.html#cloud-native-hybrid-reference-architecture-with-helm-charts-alternative" target="_blank" rel="noopener">GitLab&#8217;s Cloud Native Hybrid Reference Architecture</a> calls for Praefect to be implemented on EC2 Instance compute. <sup>[GL-RAR][AWS-WA]</sup></p>
+</li>
+<li>
+<p>Amazon CloudWatch Container Insights integration. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>Amazon CloudWatch Agent for Instance compute. <sup>[AWS-WA]</sup></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Optionally:</p>
+<p>Optionally (on by default):</p>
 <div class="ulist">
 <ul>
 <li>
 <p>In one public subnet, a Linux bastion host in an Auto Scaling group to allow
 inbound Secure Shell (SSH) access to Amazon Elastic Compute Cloud (Amazon EC2)
 instances in private subnets. The bastion host is also configured with the Kubernetes
-<code>kubectl</code> command line interface (CLI) for managing the Kubernetes cluster.</p>
+<code>kubectl</code> command line interface (CLI) and the <code>helm</code> v3 CLI for managing the Kubernetes
+cluster as well as the AWS CLI V2 for general AWS management. <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>Amazon Route53 Hosted zone for DNS configuration</p>
+<p>Amazon Route53 Hosted zone for DNS configuration. <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>AWS Certificate Manager TLS certificate</p>
+<p>AWS Certificate Manager TLS certificate. <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>Amazon Simple Email Service domain for outgoing email messages</p>
+<p>Amazon Simple Email Service domain for outgoing email messages. <sup>[AWS-WA]</sup></p>
 </li>
 <li>
-<p>Amazon CloudWatch Container Insights integration</p>
+<p>IaC parameters and outputs stored in AWS Parameter Store. <sup>[AWS-WA]</sup></p>
 </li>
 </ul>
 </div>
@@ -1079,8 +1221,110 @@ the components and prompts you for your existing VPC configuration.</span></p>
 <p><span class="small"><sup>2</sup>The template that deploys the Quick Start into an existing EKS cluster skips
 the components and prompts you for your existing EKS configuration.</span></p>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_database_cluster">Database Cluster</h3>
+<h3 id="_bundled_provisioning_of_container_registry_backup_log_aggregation_and_monitoring">Bundled Provisioning of Container Registry, Backup, Log Aggregation and Monitoring</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses Amazon Linux 2 throughout - which benefits from Amazon specific optimizations for performance and compute density for both EKS and EC2 hosts. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>All GitLab logs are automatically aggregated into CloudWatch logs via CloudWatch Instance Agent and CloudWatch Container Insights. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>EKS workload monitoring via CloudWatch Container Insights. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>GitLab backup is preconfigured.</p>
+</li>
+<li>
+<p>Prometheus is always deployed with the GitLab instance.</p>
+</li>
+<li>
+<p>Setting "ConfigureGrafana" also deploys and configures Grafana. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>The container registry is automatically setup at <code>registry.[subdomain]</code> <sup>[AWS-WA]</sup></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_security">Security</h3>
+<div class="sect3">
+<h4 id="_application_secrets">Application Secrets</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Stores generated secrets in AWS Secrets Manager (e.g. generates a proper initial root password) <sup>[AWS-WA]</sup></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_eks_cluster_administration">EKS Cluster Administration</h4>
+<div class="paragraph">
+<p>The GitLab Kubernetes endpoint can be private, a bastion host must be deployed in order to do direct cluster management (it will be preloaded with AWS, EKS and Kubernetes management utilities and IAM permissions for cluster management). The bastion host is setup with SSH keys, but can also be accessed more securely using the preconfigured SSM Session Manager. Additionally, the bastion host has command audit logging enabled and the log is uploaded to CloudWatch.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_data_encryption">Data Encryption</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Data in Transit:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>SSL for front end http. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>SSL for GitLab to S3. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>SSL for GitLab to PostgreSQL RDS. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>SSL for GitLab to Redis Elasticache. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>SSL for GitLab to Runner. <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>SSL Not Yet Available for GitLab to Praefect to Gitaly. <sup>[AWS-WA]</sup></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Data at Rest (AWS Managed Keys):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>S3 Encryption <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>PostgreSQL RDS Encryption <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>Redis Elasticache Encryption <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>Gitaly EBS Encryption (Git File System) <sup>[AWS-WA]</sup></p>
+</li>
+<li>
+<p>Praefect Data (PostgreSQL RDS). <sup>[AWS-WA]</sup></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database">Database</h3>
 <div class="paragraph">
 <p>GitLab Quickstart deploys Highly Available PostgreSQL database cluster using <a href="https://aws.amazon.com/quickstart/architecture/aurora-postgresql/" target="_blank" rel="noopener">Amazon Aurora PostgreSQL Quickstart</a>.</p>
 </div>
@@ -1108,7 +1352,19 @@ the components and prompts you for your existing EKS configuration.</span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_object_storage">Object storage</h3>
+<h3 id="_gitlab_storage">GitLab Storage</h3>
+<div class="sect3">
+<h4 id="_git_repository_storage">Git repository storage</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>EBS Volumes on Gitaly Cluster instances. ^[GL-RAR]</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_object_storage_for_gitlab_storage_types">Object storage for GitLab storage types.</h4>
 <div class="paragraph">
 <p>GitLab Quickstart creates the following S3 buckets:</p>
 </div>
@@ -1144,16 +1400,20 @@ the components and prompts you for your existing EKS configuration.</span></p>
 </ul>
 </div>
 <div class="paragraph">
+<p>S3 policies can be applied to these storages for retentions, storage tier management, cleanup and out of region replication.</p>
+</div>
+<div class="paragraph">
 <p>Contents of the bucket encrypted by default with SSE-S3. Names of the buckets are generated by CloudFormation and exported as SSM parameters (see <strong>Exports</strong> section).</p>
 </div>
 <div class="paragraph">
 <p>More about external object storage in <a href="https://docs.gitlab.com/charts/advanced/external-object-storage/" target="_blank" rel="noopener">GitLab documentation</a>.</p>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_backups">Backups</h3>
+<h3 id="_gitlab_backups">GitLab Backups</h3>
 <div class="sect3">
-<h4 id="_schedule">Schedule</h4>
+<h4 id="_scheduling_backups">Scheduling Backups</h4>
 <div class="paragraph">
 <p>Backup schedule is controlled by cron expression and default value is <code>0 1 * * * *</code> (daily at 1am). You can set a different schedule using <strong>BackupSchedule</strong> parameter.</p>
 </div>
@@ -1170,6 +1430,9 @@ the components and prompts you for your existing EKS configuration.</span></p>
 </li>
 <li>
 <p>S3 is a <a href="https://aws.amazon.com/s3/faqs/#Durability_.26_Data_Protection" target="_blank" rel="noopener">durable storage</a></p>
+</li>
+<li>
+<p>S3 storage policies also enable out of region replication and management of storage class migration to control costs for older data.</p>
 </li>
 </ul>
 </div>
@@ -1203,9 +1466,11 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_telemetry">Telemetry</h3>
-<div class="sect3">
-<h4 id="_cloudwatch_container_insights">CloudWatch Container Insights</h4>
+<h3 id="_gitlab_telemetry_and_monitoring">GitLab Telemetry and Monitoring</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_cloudwatch_container_insights">CloudWatch Container Insights</h3>
 <div class="paragraph">
 <p>GitLab Quickstart integrates EKS cluster with <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html" target="_blank" rel="noopener">CloudWatch Container Insights</a> to collect, aggregate, and summarise metrics and logs if <strong>ConfigureContainerInsights</strong> parameter is set to <code>Yes</code>.</p>
 </div>
@@ -1217,7 +1482,6 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 <img src="images/cloudwatch-container-insights.png" alt="CloudWatch Container Insights" width="100%" height="100%">
 </div>
 <div class="title">Figure 2. CloudWatch Container Insights</div>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_prometheus_metrics">Prometheus metrics</h4>
@@ -1253,10 +1517,10 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 <div class="sect2">
 <h3 id="_exports">Exports</h3>
 <div class="paragraph">
-<p>Upon successful GitLab deployment, the following SSM parameters and Secrets Manages secrtes are exposed:</p>
+<p>Upon successful GitLab deployment, the following SSM parameters and Secrets Manages secrets are exposed:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. SSM parameters</caption>
+<caption class="title">Table 2. SSM parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 16.6666%;">
@@ -1338,7 +1602,7 @@ Disk volume required for backups is about <strong>2x larger than backup tarball 
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Secret Manager secrets</caption>
+<caption class="title">Table 3. Secret Manager secrets</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 16.6666%;">
@@ -1391,8 +1655,67 @@ website</a>. These sites provide materials for learning how to design,
 deploy, and operate your infrastructure and applications on the AWS
 Cloud.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_instance_version_selection">GitLab Instance Version Selection</h3>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with &lt;knowledge expectations&gt;.</p>
+<p>The version of GitLab that will be deployed depends on the GitLab Helm Chart Version you select when launching this Quick Start.  Here is the <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" target="_blank" rel="noopener">documentation for Mapping GitLab Helm Chart Versions to GitLab Product Versions</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_migrations_and_versions">GitLab Migrations and Versions</h3>
+<div class="paragraph">
+<p>If you are migrating an existing GitLab Instance to one built by this Quick Start, it is critical to have the new instance version match the old instance version during migration.  GitLab version upgrades can be done on the old instance before migration or on the new instance after migration - but not during a migration using mismatched versions. <strong>This includes the versions of all underlying components such as PostgreSQL and Redis.</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_internet_ingress">GitLab Internet Ingress</h3>
+<div class="paragraph">
+<p>The GitLab instance will be configured with an Internet Ingress by default.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_planning_instances_types_sizes_and_numbers">Planning Instances Types, Sizes and Numbers</h3>
+<div class="paragraph">
+<p>This Quick Start is capable of creating GitLab Cloud Native Reference Architecture compliant GitLab instances. GitLab Reference Architectures have a "Cloud Native Hybrid" section that gives a manifest of required resources that can be used while deploying the template.  For instance, here is the list</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_planning_post_installation_considerations">Planning Post-Installation Considerations</h3>
+<div class="paragraph">
+<p>The following items need to be deployed after the GitLab instance is operational. They are noted here so that plans can be made around deploying them. Further instructions are given in Post-deployment steps.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_configuring_gitlab_to_integrate_with_existing_eks_clusters">Configuring GitLab to integrate with Existing EKS Clusters</a></p>
+</li>
+<li>
+<p><a href="#_configuring_gitlab_for_kubernetes_cluster_provisioning_on_eks">Configuring GitLab for Kubernetes Cluster Provisioning on EKS</a></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_deploying_gitlab_runners_in_eks_or_ec2">Deploying GitLab Runners in EKS or Ec2</h4>
+<div class="paragraph">
+<p>For a production deployment, the Kubernetes runner chart integrated into the Quick Start should not be deployed because it deploys to the same cluster as GitLab. This can create workload scaling challenges and should never be done with privileged mode enabled because it gives very high privileges to the cluster for any runner job.  However, without privileged mode, AutoDevOps, Review Apps and DinD based container builds will not work (Kaniko based container builds can work) - so a separate GitLab Runner design and deployment is advised.</p>
+</div>
+<div class="paragraph">
+<p>Alternative GitLab Runner deployment options include:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For groups and projects that will be integrated into a Kubernetes cluster dedicated to development and/or production, the <a href="https://docs.gitlab.com/ee/user/clusters/applications.html#gitlab-runner" target="_blank" rel="noopener">GitLab Runner can be deployed as a Managed App</a> or using the <a href="https://docs.gitlab.com/runner/install/kubernetes.html" target="_blank" rel="noopener">Runner Helm Chart</a> after the clusters are integrated.</p>
+</li>
+<li>
+<p>For non-Kubernetes integrated groups, projects or for shared runners for the entire instance, the <a href="https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg" target="_blank" rel="noopener">GitLab HA Scaling Runner Vending Machine for AWS</a> can be used to deploy runners of all OS types and Runner Executor types using an AWS ASG.</p>
+</li>
+<li>
+<p>a dedicated EKS cluster for a fleet of shared runners could also be implemented.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1428,35 +1751,39 @@ Cloud.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPCs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Elastic IP addresses</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches Number of AZs</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security groups</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AWS Identity and Access Management (IAM) roles</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Auto Scaling groups</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Application Load Balancers</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Various Ec2 instances (Gitaly, Praefect, EKS Nodes)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x The Number of AZs</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Network Load Balancers</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDS Instances</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches Number of AZs</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;type&gt; instances</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;n&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Elasticache Instances</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches Number of AZs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route53 Hosted Zones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
@@ -1619,21 +1946,25 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_prepare_your_aws_account">Prepare your AWS account</h4>
-<div class="paragraph">
-<p><em>Describe any setup required in the AWS account prior to template launch</em></p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_prepare_your_gitlab_inc_account">Prepare your GitLab Inc. account</h4>
 <div class="paragraph">
-<p><em>Describe any setup required in the partner portal/account prior to template launch</em></p>
+<p>A GitLab.com account is not required to deploy this Quick Start. A GitLab license is only required to enable <a href="https://about.gitlab.com/pricing/gitlab-com/feature-comparison/">"licensed tier only" features</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_prepare_for_the_deployment">Prepare for the deployment</h4>
+<h4 id="_prepare_your_aws_account">Prepare your AWS account</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an EC2 Keypair in the region you will deploy. You will need to provide the keypair name as a parameter.</p>
+</li>
+<li>
+<p>If deploying into an existing VPC, create 2 or more dedicated subnets for this QuickStart. You will need to provide the subnet ids as parameters.</p>
+</li>
+</ol>
+</div>
 <div class="paragraph">
-<p><em>Describe any preparation required to complete the product build, such as obtaining licenses or placing files in S3</em></p>
+<p>Ensure that the target AWS account has sufficient remaining service limit quota for items listed in <a href="#_resource_quotas">Resource quotas</a>.  If limits need increasing, make requests using the AWS Service Quotas console and wait until they are all increased before deploying.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1649,9 +1980,6 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <li>
 <p><strong>Deploy GitLab into an existing VPC</strong>. This option provisions GitLab in your existing AWS infrastructure.</p>
 </li>
-<li>
-<p><strong>Deploy GitLab into an existing EKS cluster</strong>. This option provisions GitLab in your existing EKS Cluster.</p>
-</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -1665,7 +1993,16 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <h2 id="_deployment_steps">Deployment steps</h2>
 <div class="sectionbody">
 <div class="sect2">
+<h3 id="_reference_architecture_compliance">Reference Architecture Compliance</h3>
+<div class="paragraph">
+<p>This default configuration will be reference complaint in the number and configuration of instances and setup of SSL and DNS, but it will deploy as small of instances as possible to control costs for a functional POC.  This means it will only be capable of matching published GitLab Reference Architecture benchmarks if you scale the instance resources to match the chosen benchmark.  If you are ready for production scale now (including scaled POCs), please follow the guides indicated below to scale it to your desire initial number of users from the start.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_sign_in_to_your_aws_account">Sign in to your AWS account</h3>
+<div class="paragraph">
+<p>Deployment takes about 1 to 2 hours to complete.</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1675,7 +2012,7 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <p>Make sure that your AWS account is configured correctly, as discussed in the <a href="#_technical_requirements">Technical requirements</a> section.</p>
 </li>
 <li>
-<p>Use the Region selector in the navigation bar to choose the AWS Region where you want to deploy GitLab.</p>
+<p>Ensure you have or know how to find the resource names, identifiers or arns discussed in the <a href="#_technical_requirements">Technical requirements</a> section.</p>
 </li>
 </ol>
 </div>
@@ -1695,9 +2032,9 @@ You are responsible for the cost of the AWS services used while running this Qui
 </table>
 </div>
 <div class="olist arabic">
-<ol class="arabic">
+<ol class="arabic" start="4">
 <li>
-<p>Sign in to your AWS account, and choose one of the following options to launch the AWS CloudFormation template. For help with choosing an option, see <a href="#_deployment_options">Deployment options</a> earlier in this guide.</p>
+<p>Choose one of the following options to launch the AWS CloudFormation template. For help with choosing an option, see <a href="#_deployment_options">Deployment options</a> earlier in this guide.</p>
 </li>
 </ol>
 </div>
@@ -1713,10 +2050,6 @@ You are responsible for the cost of the AWS services used while running this Qui
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy GitLab into an existing VPC on AWS</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy GitLab into an existing EKS cluster on AWS</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 </tbody>
@@ -1750,39 +2083,136 @@ be tagged with <code>kubernetes.io/role/internal-elb=true</code> and each public
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Each deployment takes about 60 minutes / 1.5 hours to complete.</p>
-</div>
 <div class="olist arabic">
-<ol class="arabic" start="2">
+<ol class="arabic" start="5">
 <li>
-<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for GitLab is built. The template is launched in the us-east-1 Region by default.</p>
+<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for GitLab is built (or expected to be if deploying into an existing VPC). The template is launched in the us-east-1 Region by default.</p>
 </li>
 </ol>
 </div>
-<div class="olist arabic">
-<ol class="arabic" start="3">
-<li>
-<p>On the <strong>Create stack</strong> page, keep the default setting for the template URL, and then choose <strong>Next</strong>.</p>
-</li>
-<li>
-<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
-</li>
-</ol>
-</div>
-<div class="admonitionblock note">
+<div class="admonitionblock warning">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If GitLab is already deployed in your account, ensure that the <code>Per account shared resources</code> parameter
-is set to <strong>No</strong> or <strong>AutoDetect</strong>. If you deploy a new GitLab instance in the same Region as a previously deployed instance,
-set <code>Per region shared resources</code> to <strong>No</strong> or <strong>AutoDetect</strong>.
+<div class="paragraph">
+<p>Changing the region later will clear all form values.</p>
+</div>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide.</p>
+</div>
+<div class="paragraph">
+<p>Any parameters in the form that are not mentioned below can be left at their default setting.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>On the <strong>Quick create stack</strong> page:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For <code>Stack name</code> set a unique name, but not too long. Note: All resources created will be prepended by this name.</p>
+</li>
+<li>
+<p>For <code>Number of Availability Zones</code> pick the number that matches your HA requirements and is not more than the selected region has available.</p>
+</li>
+<li>
+<p>For <code>Availability Zones</code> select at least 2 for non-production and 3 for production.</p>
+</li>
+<li>
+<p>For <code>SSH key pair name</code> select an existing keypair in the region. If none exist, you must create one now and specify it here (refresh the browser for the newly created key pair to appear on the list).</p>
+</li>
+<li>
+<p>For <code>Provision a bastion host</code> select <strong>Enabled</strong>.</p>
+</li>
+<li>
+<p>For <code>Allowed bastion external access CIDR</code> use the internet to find your own public IP and enter it with a /32 CIDR (e.g. <strong>123.231.123.231/32</strong>)</p>
+</li>
+<li>
+<p><code>EKS public access endpoint</code> can stay at the default of <code>Disabled</code> if you will use the Bastion host (recommended) for administering the GitLab cluster.</p>
+</li>
+<li>
+<p><code>EKS node instance type</code> can remain at the default for non-production and non-performance testing setups. For production or testing setups, <a href="https://aws.amazon.com/ec2/instance-types/" target="_blank" rel="noopener">select an instance type</a> that meets the vCPU and Memory requirements of your chosen reference architecture user level - spread across all EKS nodes you select.</p>
+</li>
+<li>
+<p><code>EKS node volume capacity</code> can be left at the default of 100, no GitLab data files of any type are ever stored on these nodes.</p>
+</li>
+<li>
+<p>For <code>Number of EKS nodes</code> pick a value that when multiplied by the resources of the EKS Node Instance type meets the vCPU and Memory requirements of your chosen reference architecture user level. It should be at least the same as the number of Availability Zones being configured.</p>
+</li>
+<li>
+<p>For <code>Maximum number of EKS nodes</code> select a number equal to or greater than <code>Number of EKS nodes</code>. This limit should reflect what you feel would be excessive scaling that might be caused by factors other than proper load based scaling. 20% higher than <code>Number of EKS nodes</code> is a reasonable starting point.</p>
+</li>
+<li>
+<p>If you will be using the cluster integrated Grafana for GitLab, for <code>Configure Grafana</code> select <strong>Yes</strong>.</p>
+</li>
+<li>
+<p>For <code>GitLab database instance class</code> select an instance type that fulfills the vCPUs and Memory requirements of PostgreSQL across 3 instances. These must be of the special "db" type and must be specifically available for PostgreSQL as documented in <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" target="_blank" rel="noopener">DB Instances Engine Support</a>.</p>
+</li>
+<li>
+<p>For <code>Database admin password</code> provide a password that meets the complexity requirements on the Cloud Formation form.</p>
+</li>
+<li>
+<p>For <code>Cache mode</code> production and performance testing setups must select External to ensure Redis is configured for Elasticache rather than placed in the EKS cluster. Redis in the EKS cluster is not currently supported by GitLab Reference Architecture.</p>
+</li>
+<li>
+<p>For <code>Number of cache replicas</code> enter the number that matches the availability zones you are configuring for.</p>
+</li>
+<li>
+<p><code>Cache node type</code> can remain at the default for non-production and non-performance testing setups. For production or testing setups, specify the Cache instance node type. These must be of the special instance type "cache". <a href="https://aws.amazon.com/elasticache/pricing/" target="_blank" rel="noopener">Cache Instance Type List</a>.</p>
+</li>
+<li>
+<p>For <code>GitLab DNS Name</code> select a subdomain to which the gitlab host ("gitlab") will be a part of, but do not specify the gitlab host name.  For example <code>devopstools.ourcompany.com</code> creates a gitlab instance at <code>gitlab.devopstools.ourcompany.com</code></p>
+</li>
+<li>
+<p>For <code>Create Route53 hosted zone</code> select <strong>Yes.</strong></p>
+</li>
+<li>
+<p>For <code>Request AWS Certificate Manager SSL certificate</code> select <strong>Yes</strong>.</p>
+</li>
+<li>
+<p>For <code>Outgoing SMTP domain</code> select <strong>CreateNew</strong>.</p>
+</li>
+<li>
+<p>For <code>GitLab Helm chart version</code> pick a version from <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" target="_blank" rel="noopener">GitLab version mappings</a>.</p>
+</li>
+<li>
+<p>For <code>GitLab application version</code> select the corresponding GitLab version for the chart version that was picked from <a href="https://docs.gitlab.com/charts/installation/version_mappings.html" target="_blank" rel="noopener">GitLab version mappings</a>.</p>
+</li>
+<li>
+<p>For <code>Number of Gitaly replicas</code> set it the same as the number of Availability Zones being configured.</p>
+</li>
+<li>
+<p>For <code>Gitaly instance type</code>, <a href="https://aws.amazon.com/ec2/instance-types/" target="_blank" rel="noopener">select an instance type</a> that meets the vCPU and Memory requirements of your chosen reference architecture user level.</p>
+</li>
+<li>
+<p>For <code>Gitaly volume capacity</code> - this is used for Git Repository storage and working and cache storage for Gitaly. Remember that overprovisioning storage size gives more IOPs on AWS. You may also elect to pay for higher IOPs levels. <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html" target="_blank" rel="noopener">See EBS docs</a>. Gitaly uses a lot of working storage and cache storage, so do at least double of your 1-2 year Git repository storage projection.</p>
+</li>
+<li>
+<p>For <code>Number of Praefect replicas</code> set it the same as the number of Availability Zones being configured.</p>
+</li>
+<li>
+<p>For <code>Praefect instance type</code>, <a href="https://aws.amazon.com/ec2/instance-types/" target="_blank" rel="noopener">select an instance type</a> that meets the vCPU and Memory requirements of your chosen reference architecture user level.</p>
+</li>
+<li>
+<p>For <code>Quick Start S3 bucket region</code> select <strong>us-east-1</strong> (this does not need to match the region you are deploying to)</p>
+</li>
+<li>
+<p><strong>Check</strong> <code>I acknowledge that AWS CloudFormation might create IAM resources with custom names.</code></p>
+</li>
+<li>
+<p><strong>Check</strong> <code>I acknowledge that AWS CloudFormation might require the following capability: CAPABILITY_AUTO_EXPAND</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1798,23 +2228,166 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </table>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="5">
-<li>
-<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re done, choose <strong>Next</strong>.</p>
-</li>
-<li>
-<p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
-</li>
+<ol class="arabic" start="9">
 <li>
 <p>Choose <strong>Create stack</strong> to deploy the stack.</p>
 </li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you did not specify a CreateSslCertificate = Yes, then skip this section.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you choose Yes for both <code>Create Route53 hosted zone</code> and <code>Request AWS Certificate Manager SSL certificate</code>, you will need to create a delegated DNS subdomain <strong>WHILE THE STACK IS RUNNING</strong> Follow these steps to be sure your stack does not fail. In order to ensure the stack completes successfully, this should be done within 1 hour of the ACM process entering a wait state.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The waiting period starts when the child stack containing "&#8230;&#8203;GitLabStack&#8230;&#8203;Infrastructure&#8230;&#8203;" is waiting for creation of a resource called "SslCertificate"</p>
+</div>
+<div class="paragraph">
+<p>These steps can be completed as soon as the subdomain Hosted Zone is created in Route53 - this happens well ahead of the ACM certificate wait state (which will not occur if you do these steps as soon as the hosted Zone is created).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There will be both a <strong>Public</strong> and a <strong>Private</strong> hosted zone created for your subdomain - it is important to obtain the nameserver records from the <strong>Public hosted zone</strong>.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="1">
 <li>
-<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the GitLab deployment is ready.</p>
+<p>Monitor Route53 for the creation of a Hosted Zone with the domain you specified for <code>GitLab DNS Name</code> (For this example we will use <code>devopstools.ourcompany.com</code>).</p>
 </li>
 <li>
-<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 5</a>, to view the created resources.</p>
+<p>In the [<strong>AWS Route53 console</strong>](<a href="https://console.aws.amazon.com/route53/v2/hostedzones#" class="bare">https://console.aws.amazon.com/route53/v2/hostedzones#</a>), find the new hosted zone&#8217;s <strong>Public</strong> recordset for the subdomain and <strong>copy it&#8217;s nameservers list</strong>.
+In the screenshot "qsg.devops4the.win" is the hosted zone created by the QuickStart - copy the "Value/Route traffic to".</p>
 </li>
 </ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/newhostedzone.png" alt="newhostedzone">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Edit the DNS records of the primary domain and add an NS record for the subdomain to point to the DNS servers. This is done in whatever system hosts the root domain&#8217;s primary name server records. (For this example that would be <code>ourcompany.com</code>)</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This article discusses how to do it when the root domain DNS is also in Route53: [Creating a subdomain that uses Amazon Route 53 as the DNS service without migrating the parent domain](<a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/CreatingNewSubdomain.html" class="bare">https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/CreatingNewSubdomain.html</a>)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the screenshot "devops4the.win" is the root DNS domain and is hosted in Route53.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/adddnsdelegation.png" alt="adddnsdelegation">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Not all domain registrars have the ability to create NS records for hosted zones ("subdomain DNS delegation"). If this is the case for your registrar, then you have the option to redirect the root domain to AWS for DNS and then use Route53 to create the subdomain DNS delegation.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>If your stack is actually waiting on this change, be very patient for DNS to propagate and for AWS ACM to attempt to validate the domain again.  With all possible DNS propagation CloudFormation status update delays, this could take over an hour.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>[An issue has been created](<a href="https://github.com/aws-quickstart/quickstart-eks-gitlab/issues/37" class="bare">https://github.com/aws-quickstart/quickstart-eks-gitlab/issues/37</a>) to improve this experience by allowing a host to be inserted into an existing AWS hosted zone.</p>
+</div>
+<div class="sect3">
+<h4 id="_setting_client_based_up_name_resolution_for_non_custom_domain_setups">Setting Client Based Up Name Resolution for Non-Custom Domain Setups</h4>
+<div class="paragraph">
+<p>When you do not specify DomainName the QuickStart creates a random subdomain and hosted zone that can be used in your hosts file to access your instance.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the <strong>AWS Systems Manager</strong> console and click on <strong>(<a href="https://console.aws.amazon.com/systems-manager/parameters/" target="_blank" rel="noopener">Parameter Store</a>)</strong>.</p>
+</li>
+<li>
+<p>In the search field, type <strong>/infra/domain-name</strong> to locate the parameter and copy the value to a temporary location.</p>
+</li>
+<li>
+<p>In the <strong>AWS Systems Manager</strong> console and click on <strong>(<a href="https://console.aws.amazon.com/systems-manager/parameters/" target="_blank" rel="noopener">Parameter Store</a>)</strong>.</p>
+</li>
+<li>
+<p>In the search field, type <strong>/loadbalancer</strong> to locate the parameter and copy the value to a temporary location.</p>
+</li>
+<li>
+<p>Use nslookup in a console to get any one of the load balancer&#8217;s ip addresses and and copy the value to a temporary location.</p>
+</li>
+<li>
+<p>Edit your local hosts file to add the ip address pointed at the host name (swap out 111.111.111.111 with the IP address from above).  Note "gitlab" added to the beginning. Replace <strong>full.subdomainname.from.parameterstore</strong> with your value.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>111.111.111.111 gitlab.*full.subdomainname.from.parameterstore*</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Over the course of time, the load balancer may retire this IP address - if this happens, repeat these steps to get an active load balancer IP to update the /etc/hosts file with.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
@@ -1843,6 +2416,228 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_retrieving_credentials_and_logging_in_to_gitlab">Retrieving Credentials and Logging In to GitLab</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to the <a href="https://console.aws.amazon.com/secretsmanager" target="_blank" rel="noopener">AWS Secrets manager console</a> in the region where GitLab was deployed and click on the secret ending in <strong>initial-root-password</strong></p>
+</li>
+<li>
+<p>Click the <strong>Retrieve secret value</strong> button.</p>
+</li>
+<li>
+<p>Decode the base64 encoded password in bash with (the password will be in your copy / paste buffer):</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Bash command</div>
+<div class="content">
+<pre>echo {base64-encoded-password} | base64 -d | pbcopy</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">PowerShell command</div>
+<div class="content">
+<pre>[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('{base64-encoded-password}')) | clip</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Copy the emitted password (or use your operating system&#8217;s CLI command to pipe the above command output directly to the clipboard. Bash: <code>| pbcopy</code> PowerShell: <code>| clip</code>)</p>
+</li>
+<li>
+<p>Use an internet browser to access the GitLab instance URL.</p>
+</li>
+<li>
+<p>Login with the username 'root' and paste the password in.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>If you get the error "Invalid Login or password." you probably didn&#8217;t use either the username 'root' for the username.</p>
+</li>
+<li>
+<p>If you get the error "This site can&#8217;t be reached" you are probably not using the actual host name you put in your hosts file.</p>
+</li>
+<li>
+<p>If you get the message "default backend - 404" you probably forgot to prefix the domain with "gitlab." in your hosts file and in your browser.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_kubernetes">Accessing Kubernetes</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Using the bastion host for cluster administration has the following advantages: all the kubernetes utilities preinstalled, it has permissions to the cluster and it is the only way to access the cluster if you setup the QuickStart to not expose a public endpoint for the cluster. If using the bastion host, complete these steps on that machine.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_getting_a_console_on_the_bastion_host">Getting a Console on the Bastion Host</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/ec2/v2/home?Instances:" target="_blank" rel="noopener">Ec2 Instance Console</a> in the region that GitLab was deployed to.</p>
+</li>
+<li>
+<p>Locate the instance whose name is <strong>EKSBastion</strong></p>
+</li>
+<li>
+<p>Right click it and select <strong>Connect</strong></p>
+</li>
+<li>
+<p>On the <strong>Connect to instance&#8230;&#8203;</strong> page select the <strong>Session Manager</strong> tab.</p>
+</li>
+<li>
+<p>Click the orange <strong>Connect</strong> button.</p>
+</li>
+<li>
+<p>Wait for several seconds to be placed in a shell console.</p>
+</li>
+<li>
+<p>Switch to the root user where kubectl is preconfigured.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  sudo su</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Test with this command:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  /usr/local/bin/kubectl get pods --all-namespaces</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_aws_simple_email_services_ses_outbound_email">Enabling AWS Simple Email Services (SES) Outbound Email</h3>
+<div class="paragraph">
+<p>AWS Simple Email Services are purposely created in "sandbox" mode to prevent spam abuse using massively scaled email services. You must take a manual action to enable it.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>While logged into AWS, go to the <a href="https://console.aws.amazon.com/ses/">Simple Email Services (SES) console<sup></a></sup>.</p>
+</li>
+<li>
+<p>On the left navigation, under <strong>Email Sending</strong>, click <strong>Sending Statistics</strong></p>
+</li>
+<li>
+<p>On the right pane, next to <strong>Production Access</strong>, visually validate that it says <strong>Sandbox</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Edit your account details</strong> (button).</p>
+</li>
+<li>
+<p>Next to <strong>Enable Production Access</strong>, click <strong>Yes</strong>.</p>
+</li>
+<li>
+<p>For <strong>Mail type</strong> leave the default of <strong>Transactional</strong>.</p>
+</li>
+<li>
+<p>For <strong>Website URL</strong> enter <strong>your GitLab instance url</strong>.</p>
+</li>
+<li>
+<p>Under <strong>Use case description</strong>, type <strong>Testing GitLab instance outbound email</strong>.</p>
+</li>
+<li>
+<p>Under <strong>Additional contact addresses</strong> type <strong>your real email address</strong>.</p>
+</li>
+<li>
+<p>Find <strong>I agree to the AWS Service Terms and AUP</strong>, and <strong>check the box</strong> to the right.</p>
+</li>
+<li>
+<p>Click <strong>Submit for review</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Notice the new banner near the top containing <strong>Your account details are currently under review</strong>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_grafana">Accessing Grafana</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to the <a href="https://console.aws.amazon.com/secretsmanager" target="_blank" rel="noopener">AWS Secrets manager console</a> in the region where GitLab was deployed and click on the secret ending in <strong>initial-grafana-password</strong></p>
+</li>
+<li>
+<p>Click the <strong>Retrieve secret value</strong> button.</p>
+</li>
+<li>
+<p>Decode the base64 encoded password in bash with (the password will be in your copy / paste buffer):</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Bash command</div>
+<div class="content">
+<pre>echo {base64-encoded-password} | base64 -d | pbcopy</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">PowerShell command</div>
+<div class="content">
+<pre>[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('{base64-encoded-password}')) | clip</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Visit YourGitLabURL/-/grafana</p>
+</li>
+<li>
+<p>For user specify 'root'</p>
+</li>
+<li>
+<p>Use the password retrieved above.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_test_the_deployment">Test the deployment</h2>
@@ -1853,30 +2648,81 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect1">
 <h2 id="_post_deployment_steps">Post-deployment steps</h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_best_practices_for_using_gitlab_on_aws">Best practices for using GitLab on AWS</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p><em>Add any best practices for using the software.</em></p>
+<p>When deployed for production grade implementations, this Quick Start does not setup GitLab Runners for you. To setup runners you can consult the <a href="https://docs.gitlab.com/runner/" target="_blank" rel="noopener">GitLab Runner Documentation</a> or leverage the <a href="https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg" target="_blank" rel="noopener">GitLab HA Scaling Runner Vending Machine for AWS</a></p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_security">Security</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_configuring_gitlab_for_kubernetes_cluster_provisioning_on_eks">Configuring GitLab for Kubernetes Cluster Provisioning on EKS</h3>
 <div class="paragraph">
-<p><em>Add any security-related information.</em></p>
+<p>GitLab can be configured to provision EKS clusters into AWS accounts. It requires configuration of an AWS IAM Role (and possible IAM User) for GitLab Authentication in an AWS Account. Each account to which clusters will be provisioned also require at least one EKS Provisioning IAM Role to be defined. <a href="https://docs.gitlab.com/ee/user/project/clusters/add_eks_clusters.html#configure-amazon-authentication">Follow this documentation on GitLab Integration Configuration for EKS Provisioning</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_gitlab_to_integrate_with_existing_eks_clusters">Configuring GitLab to integrate with Existing EKS Clusters</h3>
+<div class="paragraph">
+<p>A GitLab instance of any type (does not have to be running on Kubernetes) can integrate to a Kubernetes cluster for Review Apps and AutoDevOps to preproduction and production environments.  For production deployments, the cluster containing your GitLab instance should not be used for this purpose due to the level of privileges required to deploy Review Apps and AutoDevOps to the cluster.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_other_useful_information">Other useful information</h2>
+<h2 id="_sre_practices_for_using_gitlab_on_aws">SRE practices for using GitLab on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>Add any other details that will help the customer use the software on AWS.</em></p>
+<p>There are not any specific things to account for in operating GitLab on AWS. When GitLab relies on AWS services like CloudWatch and S3, then the AWS specific practices for those services are applicable - but as long as these services are correctly integrated, they are abstracted in GitLab. Services configuration may also provide benefits that are not anticipated by GitLab.  For instance, using S3 storage policies for replicating backups to another region.</p>
+</div>
+<div class="paragraph">
+<p>GitLab has distinctive SRE management concerns that will need to be monitored and adjusted. Aspects of GitLab operations can be impacted by instance size choices, provisioned IOPs and other cloud level implementation decisions.</p>
+</div>
+<div class="paragraph">
+<p>GitLab provides the <a href="https://gitlab.com/gitlab-org/quality/performance" target="_blank" rel="noopener">GitLab Performance Tool (gpt)</a> and <a href="https://gitlab.com/gitlab-org/quality/performance/-/wikis/Benchmarks/Latest" target="_blank" rel="noopener">Reference Architecture performance benchmarks</a> created by the tool for the reference of GitLab Instance SREs. If your instance will be highly scaled, you should run the gpt tool against it for a baseline performance. This will help with planning scaling.</p>
+</div>
+<div class="paragraph">
+<p>Please consult the <a href="https://docs.gitlab.com" target="_blank" rel="noopener">GitLab Documentation</a> for general operations and usage information.</p>
+</div>
+<div class="sect2">
+<h3 id="_log_monitoring_using_cloudwatch_logs">Log monitoring Using CloudWatch Logs</h3>
+<div class="paragraph">
+<p><code>aws logs tail --since 1d --follow /aws/log/path</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance_monitoring">Performance monitoring</h3>
+<div class="sect3">
+<h4 id="_using_cloudwatch_metrics">Using CloudWatch Metrics</h4>
+<div class="paragraph">
+<p>CloudWatch metrics are collected for instances and containers.  These metrics can be used for performance analysis, graphing, alarms and events in AWS CloudWatch. As per standard CloudWatch capabilities alarms and events can interact with many other AWS services for notifications or automated actions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_integrated_prometheus">Using Integrated Prometheus</h4>
+<div class="paragraph">
+<p>The Quick Start wires up GitLab to Prometheus deployed to the cluster to expose all GitLab surfaced application metrics. The Grafana deployment option enables "in-instance" grafana capabilities with these metrics.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_security_2">Security</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The infrastructure that GitLab is deployed on must be secured according to that infrastructure&#8217;s security best practices. GitLab has reasonable security out of the box, but as with all complex products it can be configured with tighter security. Some practices are outline in <a href="https://about.gitlab.com/blog/2020/05/20/gitlab-instance-security-best-practices/" target="_blank" rel="noopener">GitLab instance: security best practices</a></p>
+</div>
+<div class="sect2">
+<h3 id="_public_internet_access">Public Internet Access</h3>
+<div class="paragraph">
+<p>If the GitLab instance will be on the public internet, the industry advised security precautions and due diligences of public Internet services should be applied to it, including, but not limited to, GitLab updates and patching and infrastructure updates and patching. Leveraging AWS hardened services for the front end can help improve the security posture (for example, AWS Load Balancers, DNS and edge network services, SES for SMTP).</p>
+</div>
+<div class="paragraph">
+<p>The Quick Start does enable a more secure administrative mode by enabling the EKS cluster to be configured without a public endpoint and then configuring the Bastion host. The bastion host used automatically contains all the cluster administration tools like Kubernetes, EKSCTL, AWS CLI and Helm. The SSM agent is also preinstalled and SSM session manager permissions are configured.  This means that even the Bastion host does not need to have a port publicly exposed in order to get a console session - either through the AWS web console or a workstation installation of the AWS CLI with the SSM extensions.</p>
+</div>
+<div class="paragraph">
+<p>For production setups, GitLab Runner should not be deployed to the cluster that runs GitLab, <strong>especially in Privileged mode</strong>.</p>
+</div>
+<div class="paragraph">
+<p>GitLab publishes new releases - including security hotfixing - on the <a href="https://about.gitlab.com/releases/categories/releases/" target="_blank" rel="noopener">"Releases" category of the general blog</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1939,7 +2785,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <div class="sect2">
 <h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Basic configuration</caption>
+<caption class="title">Table 4. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1965,18 +2811,18 @@ Multiple GitLab environments with different names can be deployed in the same re
 <td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
 (<code>AvailabilityZones</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. Pick only as many as match what was selected for Number of Availability Zones (NumberofAZs).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SSH key pair name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches. If the selection list is blank, you must create a keypair in the target region, refresh this form and select it.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. VPC network configuration</caption>
+<caption class="title">Table 5. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2041,7 +2887,7 @@ Multiple GitLab environments with different names can be deployed in the same re
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Bastion host configuration</caption>
+<caption class="title">Table 6. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2061,10 +2907,11 @@ Multiple GitLab environments with different names can be deployed in the same re
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster.
 Bastion host includes kubectl and helm tools already configured for EKS cluster access.
-Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.</p></td>
+Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.
+Select a larger instance size to do performance testing from the bastion host using GitLab Performance Tool (gpt).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion host instance type
 (<code>BastionInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.micro</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for the bastion host.</p></td>
@@ -2073,12 +2920,12 @@ Bastion host is recommended for EKS cluster management in production environment
 <td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
 (<code>RemoteAccessCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the bastions. We recommend that you set this value to a trusted IP range. If the BastionHost is enabled, then this parameter is required</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 7. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2141,18 +2988,19 @@ Should have a minimum value matching the number of Availability Zones configured
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.
+Container insights ensure pod performance metrics and logs are collected to CloudWatch - including Gitlab application logs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provision and integrate Grafana
 (<code>ConfigureGrafana</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to provision Grafana to EKS and enable GitLab integration with it.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 8. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2167,12 +3015,21 @@ Should have a minimum value matching the number of Availability Zones configured
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab PostgreSQL version
+(<code>DBEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>12.4</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select Database Engine Version.
+The version must be supported by your target version of GitLab: <a href="https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later" class="bare">https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later</a>
+And by the Aurora RDS Instance type you choose: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
 This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
-The instance class is applied to both primary and standby instances.</p></td>
+The instance class is applied to both primary and standby instances.
+The instance class you choose must support the needed PostgreSQL version: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -2208,7 +3065,7 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. GitLab cache configuration</caption>
+<caption class="title">Table 9. GitLab cache configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2223,10 +3080,11 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Where to provision Redis
 (<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>External</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'BuiltIn' will install Redis in the EKS cluster while 'External' provisions Amazon ElastiCache Redis.
+GitLab Redis in Kubernetes clusters is not GitLab reference architecture compliant and only for training or testing setups.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
@@ -2234,18 +3092,20 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
 For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
-For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+For External mode this is the total number of nodes used for Redis.
+This should match the number of Availability Zones you are configuring for.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
 (<code>CacheNodeType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.
+List of acceptable instance types: <a href="https://aws.amazon.com/elasticache/pricing/" class="bare">https://aws.amazon.com/elasticache/pricing/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. GitLab infrastructure configuration</caption>
+<caption class="title">Table 10. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2280,7 +3140,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. GitLab SMTP configuration</caption>
+<caption class="title">Table 11. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2327,7 +3187,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. GitLab Helm chart configuration</caption>
+<caption class="title">Table 12. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2374,7 +3234,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 13. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2389,28 +3249,18 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
-(<code>PraefectInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
 (<code>GitalyInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
-(<code>NumberOfPraefectReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
@@ -2418,12 +3268,27 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
 Note that this storage is used for Git repositories only.
-All other object storage files are stored in S3 buckets.</p></td>
+All other GitLab storage types are stored in S3 buckets.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect coordinates Gitaly cluster replication. Number of Praefect replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.
+3 are required because Prafect replicas perform voting for data consistency and so an odd number are needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. GitLab object storage configuration</caption>
+<caption class="title">Table 14. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2465,7 +3330,7 @@ Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. GitLab Runner configuration</caption>
+<caption class="title">Table 15. GitLab Runner configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2520,7 +3385,7 @@ For test purposes only. Not recommended for production environments.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. AWS Quick Start configuration</caption>
+<caption class="title">Table 16. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2570,7 +3435,7 @@ For test purposes only. Not recommended for production environments.</p></td>
 <div class="sect2">
 <h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Basic configuration</caption>
+<caption class="title">Table 17. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2596,12 +3461,12 @@ Multiple GitLab environments with different names can be deployed in the same re
 <td class="tableblock halign-left valign-top"><p class="tableblock">SSH key pair name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair, which allows you to securely connect to your instance after it launches. If the selection list is blank, you must create a keypair in the target region, refresh this form and select it.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. VPC network configuration</caption>
+<caption class="title">Table 18. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2666,7 +3531,7 @@ Multiple GitLab environments with different names can be deployed in the same re
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Bastion host configuration</caption>
+<caption class="title">Table 19. Bastion host configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2686,10 +3551,11 @@ Multiple GitLab environments with different names can be deployed in the same re
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Disabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Enabled" to provision a bastion host to access EKS cluster.
 Bastion host includes kubectl and helm tools already configured for EKS cluster access.
-Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.</p></td>
+Bastion host is recommended for EKS cluster management in production environments as a more secure option than a public EKS API endpoint.
+Select a larger instance size to do performance testing from the bastion host using GitLab Performance Tool (gpt).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion host instance type
 (<code>BastionInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.micro</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for the bastion host.</p></td>
@@ -2703,7 +3569,7 @@ Bastion host is recommended for EKS cluster management in production environment
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 20. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2766,18 +3632,19 @@ Should have a minimum value matching the number of Availability Zones configured
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Yes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.
+Container insights ensure pod performance metrics and logs are collected to CloudWatch - including Gitlab application logs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provision and integrate Grafana
 (<code>ConfigureGrafana</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to provision Grafana to EKS and enable GitLab integration with it.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 21. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2792,12 +3659,21 @@ Should have a minimum value matching the number of Availability Zones configured
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab PostgreSQL version
+(<code>DBEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>12.4</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select Database Engine Version.
+The version must be supported by your target version of GitLab: <a href="https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later" class="bare">https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later</a>
+And by the Aurora RDS Instance type you choose: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
 This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
-The instance class is applied to both primary and standby instances.</p></td>
+The instance class is applied to both primary and standby instances.
+The instance class you choose must support the needed PostgreSQL version: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -2833,7 +3709,7 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. GitLab cache configuration</caption>
+<caption class="title">Table 22. GitLab cache configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2848,10 +3724,11 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Where to provision Redis
 (<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>External</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'BuiltIn' will install Redis in the EKS cluster while 'External' provisions Amazon ElastiCache Redis.
+GitLab Redis in Kubernetes clusters is not GitLab reference architecture compliant and only for training or testing setups.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
@@ -2859,18 +3736,20 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
 For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
-For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+For External mode this is the total number of nodes used for Redis.
+This should match the number of Availability Zones you are configuring for.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
 (<code>CacheNodeType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.
+List of acceptable instance types: <a href="https://aws.amazon.com/elasticache/pricing/" class="bare">https://aws.amazon.com/elasticache/pricing/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. GitLab infrastructure configuration</caption>
+<caption class="title">Table 23. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2905,7 +3784,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. GitLab SMTP configuration</caption>
+<caption class="title">Table 24. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2952,7 +3831,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. GitLab Helm chart configuration</caption>
+<caption class="title">Table 25. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2999,7 +3878,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 26. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3014,28 +3893,18 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
-(<code>PraefectInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
 (<code>GitalyInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
-(<code>NumberOfPraefectReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
@@ -3043,12 +3912,27 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
 Note that this storage is used for Git repositories only.
-All other object storage files are stored in S3 buckets.</p></td>
+All other GitLab storage types are stored in S3 buckets.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect coordinates Gitaly cluster replication. Number of Praefect replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.
+3 are required because Prafect replicas perform voting for data consistency and so an odd number are needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. GitLab object storage configuration</caption>
+<caption class="title">Table 27. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3090,7 +3974,7 @@ Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 27. GitLab Runner configuration</caption>
+<caption class="title">Table 28. GitLab Runner configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3145,7 +4029,7 @@ For test purposes only. Not recommended for production environments.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 28. AWS Quick Start configuration</caption>
+<caption class="title">Table 29. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3195,7 +4079,7 @@ For test purposes only. Not recommended for production environments.</p></td>
 <div class="sect2">
 <h3 id="_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 29. Basic configuration</caption>
+<caption class="title">Table 30. Basic configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3220,7 +4104,7 @@ Multiple GitLab environments with different names can be deployed in the same re
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 30. VPC network configuration</caption>
+<caption class="title">Table 31. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3261,7 +4145,7 @@ Multiple GitLab environments with different names can be deployed in the same re
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 31. Amazon EKS cluster configuration</caption>
+<caption class="title">Table 32. Amazon EKS cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3291,18 +4175,19 @@ Multiple GitLab environments with different names can be deployed in the same re
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure Container Insights
 (<code>ConfigureContainerInsights</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with CloudWatch Container Insights.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "No" to disable integration with CloudWatch Container Insights.
+Container insights ensure pod performance metrics and logs are collected to CloudWatch - including Gitlab application logs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Grafana
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provision and integrate Grafana
 (<code>ConfigureGrafana</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to enable integration with Grafana.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose "Yes" to provision Grafana to EKS and enable GitLab integration with it.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 32. Amazon Aurora Postgres configuration</caption>
+<caption class="title">Table 33. Amazon Aurora Postgres configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3317,12 +4202,21 @@ Multiple GitLab environments with different names can be deployed in the same re
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab PostgreSQL version
+(<code>DBEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>12.4</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select Database Engine Version.
+The version must be supported by your target version of GitLab: <a href="https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later" class="bare">https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later</a>
+And by the Aurora RDS Instance type you choose: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database instance class
 (<code>DBInstanceClass</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.r5.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.
 This Quickstart deploys Multi-AZ Postgres replicas in different Availability Zones.
-The instance class is applied to both primary and standby instances.</p></td>
+The instance class is applied to both primary and standby instances.
+The instance class you choose must support the needed PostgreSQL version: <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html" class="bare">https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitLab database name
@@ -3358,7 +4252,7 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 33. GitLab cache configuration</caption>
+<caption class="title">Table 34. GitLab cache configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3373,10 +4267,11 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cache mode
+<td class="tableblock halign-left valign-top"><p class="tableblock">Where to provision Redis
 (<code>CacheMode</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuiltIn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use built-in cache or provision external Amazon ElastiCache Redis cluster.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>External</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'BuiltIn' will install Redis in the EKS cluster while 'External' provisions Amazon ElastiCache Redis.
+GitLab Redis in Kubernetes clusters is not GitLab reference architecture compliant and only for training or testing setups.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of cache replicas
@@ -3384,18 +4279,20 @@ Minimum 8 characters. Must include 1 uppercase, 1 lowercase, 1 number, 1 (non / 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provide the number of cache replicas (applicable for both BuiltIn and External cache modes).
 For BuiltIn cache mode this is the number of replica Redis pods (in addition to primary pod).
-For External mode this is the total number of Amazon ElastiCache Redis clusters.</p></td>
+For External mode this is the total number of nodes used for Redis.
+This should match the number of Availability Zones you are configuring for.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cache node type
 (<code>CacheNodeType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you chose to use External cache above, provide cache node type.
+List of acceptable instance types: <a href="https://aws.amazon.com/elasticache/pricing/" class="bare">https://aws.amazon.com/elasticache/pricing/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 34. GitLab infrastructure configuration</caption>
+<caption class="title">Table 35. GitLab infrastructure configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3430,7 +4327,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 35. GitLab SMTP configuration</caption>
+<caption class="title">Table 36. GitLab SMTP configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3477,7 +4374,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 36. GitLab Helm chart configuration</caption>
+<caption class="title">Table 37. GitLab Helm chart configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3524,7 +4421,7 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 37. GitLab Git repository storage configuration</caption>
+<caption class="title">Table 38. GitLab Git repository storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3539,28 +4436,18 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
-(<code>PraefectInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
+(<code>NumberOfGitalyReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly instance type
 (<code>GitalyInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
-(<code>NumberOfPraefectReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas
-(<code>NumberOfGitalyReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Gitaly replicas to deploy in GitLab cluster. The replicas will be distributed across Availability Zones selected.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gitaly volume capacity
@@ -3568,12 +4455,27 @@ For External mode this is the total number of Amazon ElastiCache Redis clusters.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of EBS volume used by Gitaly replicas (Git repository storage), in Gb.
 Note that this storage is used for Git repositories only.
-All other object storage files are stored in S3 buckets.</p></td>
+All other GitLab storage types are stored in S3 buckets.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Praefect replicas
+(<code>NumberOfPraefectReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect coordinates Gitaly cluster replication. Number of Praefect replicas to deploy in GitLab cluster.
+The replicas will be distributed across Availability Zones selected.
+3 are required because Prafect replicas perform voting for data consistency and so an odd number are needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect instance type
+(<code>PraefectInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Praefect EC2 instance type.
+Select an instance from this list: <a href="https://aws.amazon.com/ec2/instance-types/" class="bare">https://aws.amazon.com/ec2/instance-types/</a></p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 38. GitLab object storage configuration</caption>
+<caption class="title">Table 39. GitLab object storage configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3615,7 +4517,7 @@ Encryption algorithm for GitLab object storage artifacts.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 39. GitLab Runner configuration</caption>
+<caption class="title">Table 40. GitLab Runner configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -3670,7 +4572,7 @@ For test purposes only. Not recommended for production environments.</p></td>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 40. AWS Quick Start configuration</caption>
+<caption class="title">Table 41. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
