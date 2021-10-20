@@ -252,9 +252,7 @@ Resources:
           S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
       Parameters:
         VPCID: !Ref VPCID
-        DBUserName: !Ref DBUserName
-        DBPort: !Ref DBPort
-        DBAccessCIDR: !Ref VPCCIDR
+        VPCCIDR: !Ref VPCCIDR
         PraefectPort: !Ref PraefectPort
         DomainName: !Ref DomainName
         CreateHostedZone: !Ref CreateHostedZone
@@ -289,20 +287,24 @@ Resources:
     Metadata: { cfn-lint: { config: { ignore_checks: [E9101] } } }
     Properties:
       TemplateURL: !Sub
-        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-amazon-aurora-postgresql/templates/aurora_postgres.template.yaml'
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/workload/gitlab-database-template.yaml'
         - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
           S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
       Parameters:
-        DBEngineVersion: !Ref DBEngineVersion # GitLab PostgreSQL version mappings https://docs.gitlab.com/omnibus/settings/database.html#gitlab-140-and-later
-        DBInstanceClass: !Ref DBInstanceClass
-        DBName: !Ref DBName
-        DBMasterUsername: !Sub "{{resolve:secretsmanager:${Infrastructure.Outputs.DatabaseSecretName}:SecretString:username}}"
-        DBMasterUserPassword: !Sub "{{resolve:secretsmanager:${Infrastructure.Outputs.DatabaseSecretName}:SecretString:password}}"
-        DBPort: !Ref DBPort
         VPCID: !Ref VPCID
+        VPCCIDR: !Ref VPCCIDR
         Subnet1ID: !Ref PrivateSubnet1ID
         Subnet2ID: !Ref PrivateSubnet2ID
-        CustomDBSecurityGroup: !GetAtt Infrastructure.Outputs.DatabaseSecurityGroupID
+        DBEngineVersion: !Ref DBEngineVersion
+        DBName: !Ref DBName
+        DBPraefectName: !Ref DBPraefectName 
+        DBUserName: !Ref DBUserName
+        DBPort: !Ref DBPort
+        DBInstanceClass: !Ref DBInstanceClass
+        EnvironmentName: !Ref EnvironmentName
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        QSS3BucketRegion: !Ref QSS3BucketRegion
 
   Praefect:
     Type: AWS::CloudFormation::Stack
@@ -314,14 +316,12 @@ Resources:
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         DomainName: !Ref DomainName
-        DBHost: !GetAtt Database.Outputs.RDSEndPointAddress
+        DBHost: !GetAtt Database.Outputs.PraefectEndpointAddress
         DBPort: !Ref DBPort
         DBName: !Ref DBPraefectName
-        DBMasterUsername: !Sub "{{resolve:secretsmanager:${Infrastructure.Outputs.DatabaseSecretName}:SecretString:username}}"
-        DBMasterUserPassword: !Sub "{{resolve:secretsmanager:${Infrastructure.Outputs.DatabaseSecretName}:SecretString:password}}"
+        DBMasterUsername: !Sub "{{resolve:secretsmanager:${Database.Outputs.PraefectSecretName}:SecretString:username}}"
+        DBMasterUserPassword: !Sub "{{resolve:secretsmanager:${Database.Outputs.PraefectSecretName}:SecretString:password}}"
         VPCID: !Ref VPCID
-        DBSubnetIds: !Join [ ',', [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ] ]
-        DBSecurityGroup: !GetAtt Infrastructure.Outputs.DatabaseSecurityGroupID
         PraefectSubnetIds: !If 
           - Using3AvailabilityZones
           - !Join [ ',', [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ] ]
@@ -427,7 +427,7 @@ Resources:
         KubeClusterName: !Ref KubeClusterName
         HelmChartNamespace: !Ref HelmChartNamespace
         HelmChartName: !Ref HelmChartName
-        DatabasePassword: !Sub '{{resolve:secretsmanager:${Infrastructure.Outputs.DatabaseSecretName}:SecretString:password}}'
+        DatabasePassword: !Sub '{{resolve:secretsmanager:${Database.Outputs.DatabaseSecretName}:SecretString:password}}'
         StorageAccessKeyId: !Sub '{{resolve:secretsmanager:${ObjectStorage.Outputs.CredentialsSecretName}:SecretString:accessKeyId}}'
         StorageSecretAccessKey: !Sub '{{resolve:secretsmanager:${ObjectStorage.Outputs.CredentialsSecretName}:SecretString:secretAccessKey}}'
         RegistryBucket: !GetAtt ObjectStorage.Outputs.RegistryBucket
@@ -462,7 +462,7 @@ Resources:
             psql:
               load_balancing:
                 hosts:
-                  - ${Database.Outputs.RDSReadEndPointAddress}
+                  - ${Database.Outputs.GitLabReadEndpointAddress}
           gitlab:
             webservice:
               ingress:
@@ -545,7 +545,7 @@ Resources:
 
         # database configuration
         postgresql.install: false
-        global.psql.host: !GetAtt Database.Outputs.RDSEndPointAddress
+        global.psql.host: !GetAtt Database.Outputs.GitLabEndpointAddress
         global.psql.database: !Ref DBName
         global.psql.username: !Ref DBUserName
         global.psql.password.secret: !GetAtt KubeSecrets.Outputs.DatabaseKubeSecretName
