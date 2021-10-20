@@ -571,6 +571,15 @@ Resources:
         registry.storage.secret: !GetAtt KubeSecrets.Outputs.ObjectStorageKubeSecretName
         registry.storage.key: !GetAtt KubeSecrets.Outputs.RegistrySecretKey
 
+        # Pages configuration
+        global.pages.enabled: true
+        global.pages.host: !Sub 'pages.${DomainName}'
+        global.pages.objectStore.enabled: true
+        global.pages.objectStore.proxy_download: true
+        global.pages.objectStore.bucket: !GetAtt ObjectStorage.Outputs.PagesBucket
+        global.pages.objectStore.connection.key: !GetAtt KubeSecrets.Outputs.ConnectionSecretKey
+        global.pages.objectStore.connection.secret: !GetAtt KubeSecrets.Outputs.ObjectStorageKubeSecretName
+
         # backups, see https://docs.gitlab.com/charts/backup-restore/backup.html
         gitlab.task-runner.persistance.enabled: true
         gitlab.task-runner.persistance.storageClass: gp2

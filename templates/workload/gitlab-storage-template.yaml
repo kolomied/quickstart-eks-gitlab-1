@@ -165,6 +165,21 @@ Resources:
       ServiceToken: !Ref DeleteBucketContentsFunctionArn
       Bucket: !Ref BackupTempBucket
 
+  PagesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: !Ref SSEAlgorithm
+              KMSMasterKeyID: !If [UseKMS, !Ref KMSKeyID, !Ref 'AWS::NoValue']
+  DeletePagesBucketContents:
+    Type: Custom::DeleteBucketContents
+    DependsOn: DeleteBucketContentsRolePolicy
+    Properties:
+      ServiceToken: !Ref DeleteBucketContentsFunctionArn
+      Bucket: !Ref PagesBucket
+
   # IAM resources
 
   DeleteBucketContentsRolePolicy:
@@ -188,6 +203,7 @@ Resources:
               - !Sub "arn:${AWS::Partition}:s3:::${RegistryBucket}"
               - !Sub "arn:${AWS::Partition}:s3:::${BackupBucket}"
               - !Sub "arn:${AWS::Partition}:s3:::${BackupTempBucket}"
+              - !Sub "arn:${AWS::Partition}:s3:::${PagesBucket}"
           - Effect: Allow
             Action: 
               - 's3:DeleteObject'
@@ -202,6 +218,7 @@ Resources:
               - !Sub "arn:${AWS::Partition}:s3:::${RegistryBucket}/*"
               - !Sub "arn:${AWS::Partition}:s3:::${BackupBucket}/*"
               - !Sub "arn:${AWS::Partition}:s3:::${BackupTempBucket}/*"
+              - !Sub "arn:${AWS::Partition}:s3:::${PagesBucket}/*"
 
   ObjectStorageGroup:
     Type: AWS::IAM::Group
@@ -341,6 +358,13 @@ Resources:
       Name: !Sub '/quickstart/gitlab/${EnvironmentName}/storage/buckets/backup-tmp'
       Value: !Ref BackupTempBucket
 
+  PagesBucketParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: !Sub '/quickstart/gitlab/${EnvironmentName}/storage/buckets/pages'
+      Value: !Ref PagesBucket
+
 Outputs:
   ArtifactsBucket: 
     Value: !Ref ArtifactsBucket
@@ -360,6 +384,8 @@ Outputs:
     Value: !Ref BackupBucket
   BackupTempBucket: 
     Value: !Ref BackupTempBucket
+  PagesBucket: 
+    Value: !Ref PagesBucket
 
   CredentialsSecretName:
     Value: !Ref GitLabObjectStorageKeysSecret
